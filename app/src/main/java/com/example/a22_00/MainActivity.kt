@@ -3,33 +3,102 @@ package com.example.a22_00
 import android.app.WallpaperManager
 import android.content.ComponentName
 import android.content.Intent
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.RectF
 import android.os.Build
 import android.os.Bundle
 import android.service.wallpaper.WallpaperService
+import android.util.DisplayMetrics
 import android.view.MotionEvent
+import android.widget.Button
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import java.time.LocalTime
+import java.time.Period
+import kotlin.concurrent.timer
 import kotlin.random.Random
+
 
 
 class MyWallpaperService : WallpaperService() {
     override fun onCreateEngine(): Engine = WallpaperEngine()
 
     private inner class WallpaperEngine : WallpaperService.Engine() {
-
-
-
+        /*val canvas: Canvas = if(surfaceHolder?.lockCanvas()!= null) surfaceHolder?.lockCanvas()!!else{
+            Canvas()
+        }*/
+        var running: Boolean = false
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onTouchEvent(event: MotionEvent?) {
-
-
             if (event?.action == MotionEvent.ACTION_DOWN) {
-                val canvas = surfaceHolder?.lockCanvas() ?: return
 
+                /*val paint = Paint().apply {
+                    val randomColor = Random.nextInt(16_777_216)
+                            .toString(16)
+                            .padStart(6, '0')
+                    color = Color.parseColor("#$randomColor")
+                    style = Paint.Style.FILL
+                }
+                canvas.drawPaint(paint)
+
+                //surfaceHolder.unlockCanvasAndPost(canvas)
+
+
+                //
+
+
+
+                val laikas = LocalTime.now()
+                val sekunde = laikas.getSecond()
+                println(sekunde)
+
+
+
+
+                val ratas = Paint().apply {
+                    color = Color.RED
+                    style = Paint.Style.STROKE
+                    strokeWidth = 10f
+                }
+
+
+
+
+/*
+                val displayMetrics = DisplayMetrics()
+                windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+                var width = displayMetrics.widthPixels
+                var height = displayMetrics.heightPixels
+*/
+
+
+                canvas.drawCircle(400f * sekunde / 60, 400f * sekunde / 60, 100f, ratas)
+                surfaceHolder.unlockCanvasAndPost(canvas)
+
+
+
+
+
+
+
+                //
+            */
+                println("me not really started!")
+                if(!running) {
+                    startPeriodically(1000)
+                    running=true
+                }
+            }
+        }
+
+        fun startPeriodically(period: Long){
+            val canvas: Canvas = surfaceHolder?.lockCanvas()!!
+            val t = timer(
+                    null, false, 10, period,
+             {
                 val paint = Paint().apply {
                     val randomColor = Random.nextInt(16_777_216)
                             .toString(16)
@@ -37,89 +106,12 @@ class MyWallpaperService : WallpaperService() {
                     color = Color.parseColor("#$randomColor")
                     style = Paint.Style.FILL
                 }
-
-                //Ekrano Plotis, aukstis ir laikas
                 canvas.drawPaint(paint)
-                var Plotis = canvas.width
-                var Aukstis = canvas.height
-                val laikas = LocalTime.now()
-                val sekunde = laikas.getSecond()
-
-
-
-
-                val kvadratas = Paint()
-                kvadratas.style = Paint.Style.FILL
-                kvadratas.color = Color.RED
-                kvadratas.isAntiAlias = true
-
-                // Set an offset value in pixels to draw rounded rectangle on canvas
-
-
-
-
-                val rectF = RectF(
-                        (Plotis/5).toFloat(),  // kaire x
-                        (Aukstis - Aukstis*sekunde/60).toFloat(),  // virsus y
-                        (Plotis/5*4).toFloat(),  // desine x
-                        (Aukstis - Aukstis*sekunde/60 +Aukstis/5).toFloat() // apacia y
-                )
-
-                /*
-                    public void drawRoundRect (RectF rect, float rx, float ry, Paint paint)
-                        Draw the specified round-rect using the specified paint. The roundrect
-                        will be filled or framed based on the Style in the paint.
-
-                    Parameters
-                        rect : The rectangular bounds of the roundRect to be drawn
-                        rx : The x-radius of the oval used to round the corners
-                        ry : The y-radius of the oval used to round the corners
-                        paint : The paint used to draw the roundRect
-                */
-
-                // Define the corners radius of rounded rectangle
-
-                /*
-                    public void drawRoundRect (RectF rect, float rx, float ry, Paint paint)
-                        Draw the specified round-rect using the specified paint. The roundrect
-                        will be filled or framed based on the Style in the paint.
-
-                    Parameters
-                        rect : The rectangular bounds of the roundRect to be drawn
-                        rx : The x-radius of the oval used to round the corners
-                        ry : The y-radius of the oval used to round the corners
-                        paint : The paint used to draw the roundRect
-                */
-
-                // Define the corners radius of rounded rectangle
-                val cornersRadius = 50
-
-                // Finally, draw the rounded corners rectangle object on the canvas
-
-                // Finally, draw the rounded corners rectangle object on the canvas
-                canvas.drawRoundRect(
-                        rectF,  // rect
-                        cornersRadius.toFloat(),  // rx
-                        cornersRadius.toFloat(),  // ry
-                        kvadratas // Paint
-                )
-
-
-
-
-
-
-
-
                 surfaceHolder.unlockCanvasAndPost(canvas)
+                println("me started!")
+            })
 
-
-
-                //
-
-
-
-            }
+            println("me not really started!")
         }
     }
 }
@@ -131,6 +123,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        /*val yra =findViewById<Button>(R.id.mygtukas)
+        val myTxt = findViewById<TextView>(R.id.myTextView)*/
+
 
 
         val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
