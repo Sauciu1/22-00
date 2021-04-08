@@ -5,22 +5,15 @@ import android.content.ComponentName
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.RectF
 import android.os.Build
 import android.os.Bundle
 import android.service.wallpaper.WallpaperService
-import android.util.DisplayMetrics
 import android.view.MotionEvent
-import android.view.ViewManager
-import android.widget.Button
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import java.time.LocalTime
 import kotlin.random.Random
-
-
-
-
 
 
 class MyWallpaperService : WallpaperService() {
@@ -55,15 +48,61 @@ class MyWallpaperService : WallpaperService() {
 
 
 
+                val kvadratas = Paint()
+                kvadratas.style = Paint.Style.FILL
+                kvadratas.color = Color.RED
+                kvadratas.isAntiAlias = true
+
+                // Set an offset value in pixels to draw rounded rectangle on canvas
 
 
 
 
-                val ratas = Paint().apply {
-                    color = Color.RED
-                    style = Paint.Style.STROKE
-                    strokeWidth = 100f
-                }
+                val rectF = RectF(
+                        (Plotis/5).toFloat(),  // kaire x
+                        (Aukstis - Aukstis*sekunde/60).toFloat(),  // virsus y
+                        (Plotis/5*4).toFloat(),  // desine x
+                        (Aukstis - Aukstis*sekunde/60 +Aukstis/5).toFloat() // apacia y
+                )
+
+                /*
+                    public void drawRoundRect (RectF rect, float rx, float ry, Paint paint)
+                        Draw the specified round-rect using the specified paint. The roundrect
+                        will be filled or framed based on the Style in the paint.
+
+                    Parameters
+                        rect : The rectangular bounds of the roundRect to be drawn
+                        rx : The x-radius of the oval used to round the corners
+                        ry : The y-radius of the oval used to round the corners
+                        paint : The paint used to draw the roundRect
+                */
+
+                // Define the corners radius of rounded rectangle
+
+                /*
+                    public void drawRoundRect (RectF rect, float rx, float ry, Paint paint)
+                        Draw the specified round-rect using the specified paint. The roundrect
+                        will be filled or framed based on the Style in the paint.
+
+                    Parameters
+                        rect : The rectangular bounds of the roundRect to be drawn
+                        rx : The x-radius of the oval used to round the corners
+                        ry : The y-radius of the oval used to round the corners
+                        paint : The paint used to draw the roundRect
+                */
+
+                // Define the corners radius of rounded rectangle
+                val cornersRadius = 50
+
+                // Finally, draw the rounded corners rectangle object on the canvas
+
+                // Finally, draw the rounded corners rectangle object on the canvas
+                canvas.drawRoundRect(
+                        rectF,  // rect
+                        cornersRadius.toFloat(),  // rx
+                        cornersRadius.toFloat(),  // ry
+                        kvadratas // Paint
+                )
 
 
 
@@ -72,18 +111,7 @@ class MyWallpaperService : WallpaperService() {
 
 
 
-
-
-
-
-
-                canvas.drawCircle(400f * sekunde / 60,  1f*(Aukstis - Aukstis * sekunde / 60), 10f, ratas)
                 surfaceHolder.unlockCanvasAndPost(canvas)
-
-
-
-
-
 
 
 
