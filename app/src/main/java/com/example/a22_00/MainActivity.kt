@@ -16,7 +16,14 @@ import java.time.LocalTime
 import kotlin.random.Random
 
 
-class MyWallpaperService : WallpaperService() {
+
+
+
+
+
+
+
+class WallpaperRodymas : WallpaperService() {
     override fun onCreateEngine(): Engine = WallpaperEngine()
 
     private inner class WallpaperEngine : WallpaperService.Engine() {
@@ -29,85 +36,69 @@ class MyWallpaperService : WallpaperService() {
 
             if (event?.action == MotionEvent.ACTION_DOWN) {
                 val canvas = surfaceHolder?.lockCanvas() ?: return
-
-                val paint = Paint().apply {
-                    val randomColor = Random.nextInt(16_777_216)
-                            .toString(16)
-                            .padStart(6, '0')
-                    color = Color.parseColor("#$randomColor")
-                    style = Paint.Style.FILL
-                }
-
-                //Ekrano Plotis, aukstis ir laikas
-                canvas.drawPaint(paint)
-                var Plotis = canvas.width
-                var Aukstis = canvas.height
+                val Plotis = canvas.width
+                val Aukstis = canvas.height
                 val laikas = LocalTime.now()
                 val sekunde = laikas.getSecond()
 
 
 
+                fun FonoSpalva(){
+                    val paint = Paint().apply {
+                        val randomColor = Random.nextInt(16_777_216)
+                                .toString(16)
+                                .padStart(6, '0')
+                        color = Color.parseColor("#$randomColor")
+                        style = Paint.Style.FILL
+                    }
+                    canvas.drawPaint(paint)
+                }
 
-                val kvadratas = Paint()
-                kvadratas.style = Paint.Style.FILL
-                kvadratas.color = Color.RED
-                kvadratas.isAntiAlias = true
-
-                // Set an offset value in pixels to draw rounded rectangle on canvas
-
-
-
-
-                val rectF = RectF(
-                        (Plotis/5).toFloat(),  // kaire x
-                        (Aukstis - Aukstis*sekunde/60).toFloat(),  // virsus y
-                        (Plotis/5*4).toFloat(),  // desine x
-                        (Aukstis - Aukstis*sekunde/60 +Aukstis/5).toFloat() // apacia y
-                )
-
-                /*
-                    public void drawRoundRect (RectF rect, float rx, float ry, Paint paint)
-                        Draw the specified round-rect using the specified paint. The roundrect
-                        will be filled or framed based on the Style in the paint.
-
-                    Parameters
-                        rect : The rectangular bounds of the roundRect to be drawn
-                        rx : The x-radius of the oval used to round the corners
-                        ry : The y-radius of the oval used to round the corners
-                        paint : The paint used to draw the roundRect
-                */
-
-                // Define the corners radius of rounded rectangle
-
-                /*
-                    public void drawRoundRect (RectF rect, float rx, float ry, Paint paint)
-                        Draw the specified round-rect using the specified paint. The roundrect
-                        will be filled or framed based on the Style in the paint.
-
-                    Parameters
-                        rect : The rectangular bounds of the roundRect to be drawn
-                        rx : The x-radius of the oval used to round the corners
-                        ry : The y-radius of the oval used to round the corners
-                        paint : The paint used to draw the roundRect
-                */
-
-                // Define the corners radius of rounded rectangle
-                val cornersRadius = 50
-
-                // Finally, draw the rounded corners rectangle object on the canvas
-
-                // Finally, draw the rounded corners rectangle object on the canvas
-                canvas.drawRoundRect(
-                        rectF,  // rect
-                        cornersRadius.toFloat(),  // rx
-                        cornersRadius.toFloat(),  // ry
-                        kvadratas // Paint
-                )
+                FonoSpalva()
+                //Ekrano Plotis, aukstis ir laikas
 
 
 
 
+                fun PieskKvadrata(Eile: Int, spalva: String){
+                        val kvadratas = Paint()
+                        kvadratas.style = Paint.Style.FILL
+                        kvadratas.color = Color.parseColor(spalva)
+                        kvadratas.isAntiAlias = true
 
+
+
+                        val KvadratoKoordinates = RectF(
+                                (Plotis / 5 * Eile).toFloat(),  // kaire x
+                                (Aukstis - Aukstis * sekunde / 60).toFloat(),  // virsus y
+                                (Plotis / 5 * 4 * Eile).toFloat(),  // desine x
+                                (Aukstis - Aukstis * sekunde / 60 + Aukstis / 5).toFloat() // apacia y
+                        )
+
+                        val KampuApvalumas = 100
+                        canvas.drawRoundRect(
+                                KvadratoKoordinates,  // rect
+                                KampuApvalumas.toFloat(),  // rx
+                                KampuApvalumas.toFloat(),  // ry
+                                kvadratas // Paint
+                        )
+
+
+                    }
+                PieskKvadrata(1, "#0000FF")
+                PieskKvadrata(2, "#EE82EE")
+
+                fun PieskTeksta(Tekstas:String) {
+                    val TekstoSavybes = Paint()
+                    TekstoSavybes.color = Color.WHITE
+                    TekstoSavybes.style = Paint.Style.FILL
+                    // canvas.drawPaint(tekstas)
+
+                    TekstoSavybes.color = Color.BLACK
+                    TekstoSavybes.textSize = 100f
+                    canvas.drawText(Tekstas, 200f, 400f, TekstoSavybes)
+                }
+                PieskTeksta("Labas")
 
 
 
@@ -136,7 +127,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
         intent.putExtra(
                 WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                ComponentName(this, MyWallpaperService::class.java)
+                ComponentName(this, WallpaperRodymas::class.java)
         )
         startActivity(intent)
 
