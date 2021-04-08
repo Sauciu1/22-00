@@ -10,12 +10,16 @@ import android.os.Bundle
 import android.service.wallpaper.WallpaperService
 import android.util.DisplayMetrics
 import android.view.MotionEvent
+import android.view.ViewManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import java.time.LocalTime
 import kotlin.random.Random
+
+
+
 
 
 
@@ -28,6 +32,8 @@ class MyWallpaperService : WallpaperService() {
 
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onTouchEvent(event: MotionEvent?) {
+
+
             if (event?.action == MotionEvent.ACTION_DOWN) {
                 val canvas = surfaceHolder?.lockCanvas() ?: return
 
@@ -38,18 +44,17 @@ class MyWallpaperService : WallpaperService() {
                     color = Color.parseColor("#$randomColor")
                     style = Paint.Style.FILL
                 }
+
+                //Ekrano Plotis, aukstis ir laikas
                 canvas.drawPaint(paint)
-
-                //surfaceHolder.unlockCanvasAndPost(canvas)
-
-
-                //
-
-
-
+                var Plotis = canvas.width
+                var Aukstis = canvas.height
                 val laikas = LocalTime.now()
                 val sekunde = laikas.getSecond()
-                println(sekunde)
+
+
+
+
 
 
 
@@ -57,23 +62,24 @@ class MyWallpaperService : WallpaperService() {
                 val ratas = Paint().apply {
                     color = Color.RED
                     style = Paint.Style.STROKE
-                    strokeWidth = 10f
+                    strokeWidth = 100f
                 }
 
 
 
 
-/*
-                val displayMetrics = DisplayMetrics()
-                windowManager.defaultDisplay.getMetrics(displayMetrics)
-
-                var width = displayMetrics.widthPixels
-                var height = displayMetrics.heightPixels
-*/
 
 
-                canvas.drawCircle(400f * sekunde / 60, 400f * sekunde / 60, 100f, ratas)
+
+
+
+
+
+
+
+                canvas.drawCircle(400f * sekunde / 60,  1f*(Aukstis - Aukstis * sekunde / 60), 10f, ratas)
                 surfaceHolder.unlockCanvasAndPost(canvas)
+
 
 
 
@@ -97,11 +103,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val yra =findViewById<Button>(R.id.mygtukas)
-        val myTxt = findViewById<TextView>(R.id.myTextView)
-
-
 
 
         val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
