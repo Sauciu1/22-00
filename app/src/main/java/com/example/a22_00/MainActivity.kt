@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.a22_00.DBHelper.DBHelper
 import java.time.LocalTime
 import java.time.Period
 import kotlin.concurrent.timer
@@ -23,12 +24,19 @@ import kotlin.random.Random
 
 
 class MyWallpaperService : WallpaperService() {
-    override fun onCreateEngine(): Engine = WallpaperEngine()
+    internal lateinit var db:DBHelper
+    override fun onCreateEngine(): Engine{
+        db = DBHelper(this)
+      return WallpaperEngine()
+    }
 
     private inner class WallpaperEngine : WallpaperService.Engine() {
         /*val canvas: Canvas = if(surfaceHolder?.lockCanvas()!= null) surfaceHolder?.lockCanvas()!!else{
             Canvas()
         }*/
+
+
+        //internal  var
         var running: Boolean = false
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onTouchEvent(event: MotionEvent?) {
@@ -88,13 +96,14 @@ class MyWallpaperService : WallpaperService() {
             */
                 println("me not really started!")
                 if(!running) {
-                    startPeriodically(1000)
+                    println(db.getAllTimetables().count())
+                    //startPeriodically(1000)
                     running=true
                 }
             }
         }
 
-        fun startPeriodically(period: Long){
+        /*fun startPeriodically(period: Long){
             val canvas: Canvas = surfaceHolder?.lockCanvas()!!
             val t = timer(
                     null, false, 10, period,
@@ -112,7 +121,7 @@ class MyWallpaperService : WallpaperService() {
             })
 
             println("me not really started!")
-        }
+        }*/
     }
 }
 
@@ -120,13 +129,16 @@ class MyWallpaperService : WallpaperService() {
 
 
 class MainActivity : AppCompatActivity() {
+    //internal lateinit var db:DBHelper
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         /*val yra =findViewById<Button>(R.id.mygtukas)
         val myTxt = findViewById<TextView>(R.id.myTextView)*/
-
+        //db = DBHelper(this)
 
 
         val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
