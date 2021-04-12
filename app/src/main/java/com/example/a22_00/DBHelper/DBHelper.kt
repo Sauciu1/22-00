@@ -1,0 +1,170 @@
+package com.example.a22_00.DBHelper
+
+import android.content.ContentValues
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+import android.graphics.Color
+import android.os.Build
+import androidx.annotation.RequiresApi
+import com.example.a22_00.Model.Timetable
+import java.security.AccessControlContext
+import java.security.Timestamp
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+
+class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VER) {
+    companion object{
+        private val DATABASE_VER = 1
+        private val  DATABASE_NAME = "Schedules.db"
+
+        //table timetables
+        private  val TABLE_TIMETABLE="Timetables"
+        private  val COL_ID="Id"
+        private  val COL_NAME="Name"
+        private  val COL_DESCRIPTION="Description"
+
+        //table activities
+        private  val TABLE_ACTIVITIES="Timetables"
+        //private  val COL_ID="Id"
+        //private  val COL_NAME="Name"
+        private  val COL_BEGINING="Begining"
+        private  val COL_DURATION="Duration"
+        private  val COL_COLOR="Color"
+
+        //table activities to timetables
+        private  val TABLE_ACTIVITIES_TO_TIMETABLES="ActivitiesToTimetables"
+        private  val COL_TIMETABLE_ID="TimetableId"
+        private  val COL_ACTIVITY_ID="ActivityId"
+    }
+
+    override fun onCreate(db: SQLiteDatabase?) {
+        var CREATE_TABLE_QUERY:String = ("CREATE TABLE IF NOT EXISTS $TABLE_TIMETABLE ($COL_ID INTEGER PRIMARY KEY,$COL_NAME TEXT,$COL_DESCRIPTION TEXT)")
+        db!!.execSQL(CREATE_TABLE_QUERY);
+
+        CREATE_TABLE_QUERY = ("CREATE TABLE IF NOT EXISTS $TABLE_ACTIVITIES ($COL_ID INTEGER PRIMARY KEY,$COL_NAME TEXT,$COL_BEGINING TEXT,$COL_BEGINING TEXT, $COL_DURATION INTEGER, $COL_COLOR TEXT)")
+        db!!.execSQL(CREATE_TABLE_QUERY);
+
+        CREATE_TABLE_QUERY = ("CREATE TABLE IF NOT EXISTS $TABLE_ACTIVITIES_TO_TIMETABLES ($COL_TIMETABLE_ID INTEGER,$COL_ACTIVITY_ID INTEGER, FOREIGN KEY('$COL_TIMETABLE_ID') REFERENCES '$TABLE_TIMETABLE'('$COL_ID'),  FOREIGN KEY('$COL_ACTIVITY_ID') REFERENCES '$TABLE_ACTIVITIES'('$COL_ID') ) ")
+        //FOREIGN KEY("AId") REFERENCES "monthly-2021"("Draudėjokodas(code)"),
+        //	FOREIGN KEY("BId") REFERENCES "b2"("ID")
+        db!!.execSQL(CREATE_TABLE_QUERY);
+    }
+
+    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_TIMETABLE ")
+        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_ACTIVITIES ")
+        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_ACTIVITIES_TO_TIMETABLES ")
+        onCreate(db!!)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getAllTimetables(): ArrayList<Timetable> {
+        val data = ArrayList<Timetable>()
+        val db = this.writableDatabase
+        var cursor  = db.rawQuery("SELECT * FROM $TABLE_TIMETABLE ",null)
+        if(cursor.moveToFirst()){
+            do{
+                val timetable = Timetable()
+                timetable.id = cursor.getInt(cursor.getColumnIndex(COL_ID))
+                timetable.name = cursor.getString(cursor.getColumnIndex(COL_NAME))
+                timetable.description = cursor.getString(cursor.getColumnIndex(COL_DESCRIPTION))
+                data.add(timetable)
+            }while (cursor.moveToNext())
+        }
+        val activities = ArrayList<com.example.a22_00.Model.Activity>()
+        cursor.close()
+        cursor  = db.rawQuery("SELECT * FROM $TABLE_ACTIVITIES ",null)
+        if(cursor.moveToFirst()) {
+            do {
+                val activity = com.example.a22_00.Model.Activity()
+                activity.id = cursor.getInt(cursor.getColumnIndex(COL_ID))
+                activity.name = cursor.getString(cursor.getColumnIndex(COL_NAME))
+                activity.begining = LocalTime.parse(cursor.getString(cursor.getColumnIndex(COL_BEGINING)), DateTimeFormatter.BASIC_ISO_DATE)
+                activity.duration = cursor.getInt(cursor.getColumnIndex(COL_DURATION)).toLong()
+                activity.color = Color.valueOf((Color.parseColor(cursor.getString(cursor.getColumnIndex(COL_COLOR)))))
+                activities.add(activity)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        cursor  = db.rawQuery("SELECT * FROM $TABLE_ACTIVITIES_TO_TIMETABLES ",null)
+        if(cursor.moveToFirst()){
+            do{
+                val idTimetable = cursor.getInt(cursor.getColumnIndex(COL_TIMETABLE_ID))
+                val idActivity = cursor.getInt(cursor.getColumnIndex(COL_ACTIVITY_ID))
+                val t = data.first(predicate = {it.id==idTimetable})
+                (t.activities as ArrayList<com.example.a22_00.Model.Activity>).add(activities.first(predicate = {it.id==idActivity}))
+                data[data.indexOfFirst { it.id==t.id }] = t
+
+            }while (cursor.moveToNext())
+        }
+        cursor.close()
+        db.close()
+        return data
+    }
+    fun insertTimetable(data:Timetable){
+        val db = this.writableDatabase
+        /*val query = "INSERT $TABLE_NAME VALUE("+data.id+", "+data.name+", "+data.description+") "
+        db.execSQL(query)*/
+        val values = ContentValues()
+        values.put(COL_ID,data.id)
+        values.put(COL_NAME,data.name)
+        values.put(COL_DESCRIPTION,data.description)
+        db.insert(TABLE_TIMETABLE,null,values)
+        values.clear()
+        data.activities.forEach({
+            values.put(COL_ID,it.id)
+            values.put(COL_NAME,it.name)
+            values.put(COL_BEGINING,it.begining.toString())
+            values.put(COL_DURATION,it.duration)
+            values.put(COL_COLOR,it.color.toString())
+            db.insert(TABLE_ACTIVITIES,null,values)
+            values.clear()
+            values.put(COL_TIMETABLE_ID,data.id)
+            values.put(COL_ACTIVITY_ID,it.id)
+            db.insert(TABLE_ACTIVITIES_TO_TIMETABLES,null,values)
+            values.clear()
+        })
+        db.close()
+    }
+    fun updateTimetable(data:Timetable){
+        val db = this.writableDatabase
+        /*val query = "INSERT $TABLE_NAME VALUE("+data.id+", "+data.name+", "+data.description+") "
+        db.execSQL(query)*/
+        val values = ContentValues()
+        values.put(COL_ID,data.id)
+        values.put(COL_NAME,data.name)
+        values.put(COL_DESCRIPTION,data.description)
+        db.update(TABLE_TIMETABLE,values,"$COL_ID=?", arrayOf(data.id.toString()))
+        values.clear()
+        data.activities.forEach({
+            val c = db.rawQuery("SELECT COUNT(*) FROM $TABLE_ACTIVITIES WHERE Id = $it.id",null)
+            c.moveToFirst()
+            val cnt = c.getInt(c.columnCount)
+            if(cnt==0){
+                values.put(COL_ID,it.id)
+                values.put(COL_NAME,it.name)
+                values.put(COL_BEGINING,it.begining.toString())
+                values.put(COL_DURATION,it.duration)
+                values.put(COL_COLOR,it.color.toString())
+                db.insert(TABLE_ACTIVITIES,null,values)
+                values.clear()
+                values.put(COL_TIMETABLE_ID,data.id)
+                values.put(COL_ACTIVITY_ID,it.id)
+                db.insert(TABLE_ACTIVITIES_TO_TIMETABLES,null,values)
+                values.clear()
+            }
+        })
+        db.close()
+    }
+    fun deleteTimetable(data:Timetable){
+        val db = this.writableDatabase
+        db.delete(TABLE_TIMETABLE,"$COL_ID=?", arrayOf(data.id.toString()))
+        db.delete(TABLE_ACTIVITIES_TO_TIMETABLES,"$COL_TIMETABLE_ID=?", arrayOf(data.id.toString()))
+        data.activities.forEach({
+            db.delete(TABLE_TIMETABLE,"$COL_ID=?", arrayOf(it.id.toString()))
+        })
+        //db.delete(TABLE_ACTIVITIES,"$COL_ID=?", arrayOf(data.activ))
+        db.close()
+    }
+}
