@@ -2,39 +2,20 @@ package com.example.a22_00
 
 import android.app.WallpaperManager
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
-
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-
 import android.graphics.*
-
-import android.os.Build
 import android.os.Bundle
-import android.service.wallpaper.WallpaperService
-import android.util.DisplayMetrics
-import android.view.MotionEvent
-import android.widget.Button
+import android.util.Log
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-
-import com.example.a22_00.DBHelper.DBHelper
-
-import java.lang.Float.min
-
-import java.time.LocalTime
-import java.time.Period
-import kotlin.concurrent.timer
-import kotlin.random.Random
-
-
+import java.io.IOException
+import java.io.InputStream
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
     //internal lateinit var db:DBHelper
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,11 +28,24 @@ class MainActivity : AppCompatActivity() {
 
         val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
         intent.putExtra(
-                WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                ComponentName(this, WallpaperRodymas::class.java)
+            WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+            ComponentName(this, WallpaperRodymas::class.java)
         )
         startActivity(intent)
+        val textView = findViewById<TextView>(R.id.textView)
+        val data = readFromAsset()
+        textView.setText(data)
 
 
+    }
+    private fun readFromAsset(): String {
+        val file_name = "Sample.json"
+        val bufferReader = application.assets.open(file_name).bufferedReader()
+        val data = bufferReader.use {
+            it.readText()
+        }
+        Log.d("readFromAsset", data)
+
+        return data
     }
 }
