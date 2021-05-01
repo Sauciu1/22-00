@@ -12,6 +12,7 @@ import java.security.AccessControlContext
 import java.security.Timestamp
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.jar.Attributes
 
 class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VER) {
     companion object{
@@ -60,30 +61,29 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getAllTimetables(): ArrayList<Timetable> {
-        val data = ArrayList<Timetable>()
+        val data = mutableMapOf<Int, Timetable>()
         val db = this.writableDatabase
         var cursor  = db.rawQuery("SELECT * FROM $TABLE_TIMETABLE ",null)
         if(cursor.moveToFirst()){
             do{
-                val timetable = Timetable()
-                timetable.id = cursor.getInt(cursor.getColumnIndex(COL_ID))
+                 val timetable = Timetable()
                 timetable.name = cursor.getString(cursor.getColumnIndex(COL_NAME))
                 timetable.description = cursor.getString(cursor.getColumnIndex(COL_DESCRIPTION))
-                data.add(timetable)
+                data[cursor.getInt(cursor.getColumnIndex(COL_ID))]=timetable
             }while (cursor.moveToNext())
         }
-        val activities = ArrayList<com.example.a22_00.Model.Activity>()
         cursor.close()
+        val activities = mutableMapOf<Int, com.example.a22_00.Model.Activity>()
         cursor  = db.rawQuery("SELECT * FROM $TABLE_ACTIVITIES ",null)
         if(cursor.moveToFirst()) {
             do {
                 val activity = com.example.a22_00.Model.Activity()
-                activity.id = cursor.getInt(cursor.getColumnIndex(COL_ID))
+                //activity.id = cursor.getInt(cursor.getColumnIndex(COL_ID))
                 activity.name = cursor.getString(cursor.getColumnIndex(COL_NAME))
                 activity.begining = LocalTime.parse(cursor.getString(cursor.getColumnIndex(COL_BEGINING)), DateTimeFormatter.BASIC_ISO_DATE)
                 activity.duration = cursor.getInt(cursor.getColumnIndex(COL_DURATION)).toLong()
                 activity.color = Color.valueOf((Color.parseColor(cursor.getString(cursor.getColumnIndex(COL_COLOR)))))
-                activities.add(activity)
+                activities[cursor.getInt(cursor.getColumnIndex(COL_ID))] = activity
             } while (cursor.moveToNext())
         }
         cursor.close()
@@ -92,36 +92,38 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
             do{
                 val idTimetable = cursor.getInt(cursor.getColumnIndex(COL_TIMETABLE_ID))
                 val idActivity = cursor.getInt(cursor.getColumnIndex(COL_ACTIVITY_ID))
-                val t = data.first(predicate = {it.id==idTimetable})
+                /*val t = data.first(predicate = {it.id==idTimetable})
                 (t.activities as ArrayList<com.example.a22_00.Model.Activity>).add(activities.first(predicate = {it.id==idActivity}))
-                data[data.indexOfFirst { it.id==t.id }] = t
+                data[data.indexOfFirst { it.id==t.id }] = t*/
+                (data[idTimetable]!!.activities as ArrayList<com.example.a22_00.Model.Activity>).add(activities[idActivity]!!)
+
 
             }while (cursor.moveToNext())
         }
         cursor.close()
         db.close()
-        return data
+        return ((data.toList() as ArrayList<Pair<Int,Timetable>>).map{ it.second }.toList() as ArrayList<Timetable>)
     }
     fun insertTimetable(data:Timetable){
         val db = this.writableDatabase
         /*val query = "INSERT $TABLE_NAME VALUE("+data.id+", "+data.name+", "+data.description+") "
         db.execSQL(query)*/
         val values = ContentValues()
-        values.put(COL_ID,data.id)
+        //values.put(COL_ID,data.id)
         values.put(COL_NAME,data.name)
         values.put(COL_DESCRIPTION,data.description)
-        db.insert(TABLE_TIMETABLE,null,values)
+        val timetableID = db.insert(TABLE_TIMETABLE,null,values)
         values.clear()
         data.activities.forEach({
-            values.put(COL_ID,it.id)
+            //values.put(COL_ID,it.id)
             values.put(COL_NAME,it.name)
             values.put(COL_BEGINING,it.begining.toString())
             values.put(COL_DURATION,it.duration)
             values.put(COL_COLOR,it.color.toString())
-            db.insert(TABLE_ACTIVITIES,null,values)
+            val activityID=db.insert(TABLE_ACTIVITIES,null,values)
             values.clear()
-            values.put(COL_TIMETABLE_ID,data.id)
-            values.put(COL_ACTIVITY_ID,it.id)
+            values.put(COL_TIMETABLE_ID,timetableID)
+            values.put(COL_ACTIVITY_ID,activityID)
             db.insert(TABLE_ACTIVITIES_TO_TIMETABLES,null,values)
             values.clear()
         })
@@ -129,41 +131,46 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
     }
     fun updateTimetable(data:Timetable){
         val db = this.writableDatabase
-        /*val query = "INSERT $TABLE_NAME VALUE("+data.id+", "+data.name+", "+data.description+") "
-        db.execSQL(query)*/
         val values = ContentValues()
-        values.put(COL_ID,data.id)
         values.put(COL_NAME,data.name)
         values.put(COL_DESCRIPTION,data.description)
-        db.update(TABLE_TIMETABLE,values,"$COL_ID=?", arrayOf(data.id.toString()))
+        db.update(TABLE_TIMETABLE,values,"$COL_NAME=?", arrayOf(data.name))
         values.clear()
+        val c = db.rawQuery("SELECT ID FROM $TABLE_TIMETABLE WHERE $COL_NAME = ${data.name}",null)
+        c.moveToFirst()
+        val timetableID=c.getInt(0)
+        c.close()
         data.activities.forEach({
-            val c = db.rawQuery("SELECT COUNT(*) FROM $TABLE_ACTIVITIES WHERE Id = $it.id",null)
-            c.moveToFirst()
-            val cnt = c.getInt(c.columnCount)
-            if(cnt==0){
-                values.put(COL_ID,it.id)
+                //values.put(COL_ID,it.id)
                 values.put(COL_NAME,it.name)
                 values.put(COL_BEGINING,it.begining.toString())
                 values.put(COL_DURATION,it.duration)
                 values.put(COL_COLOR,it.color.toString())
-                db.insert(TABLE_ACTIVITIES,null,values)
+                var activityID=db.insert(TABLE_ACTIVITIES,null,values)
                 values.clear()
-                values.put(COL_TIMETABLE_ID,data.id)
-                values.put(COL_ACTIVITY_ID,it.id)
+                values.put(COL_TIMETABLE_ID,timetableID)
+                values.put(COL_ACTIVITY_ID,activityID)
                 db.insert(TABLE_ACTIVITIES_TO_TIMETABLES,null,values)
                 values.clear()
-            }
+
         })
         db.close()
     }
     fun deleteTimetable(data:Timetable){
         val db = this.writableDatabase
-        db.delete(TABLE_TIMETABLE,"$COL_ID=?", arrayOf(data.id.toString()))
-        db.delete(TABLE_ACTIVITIES_TO_TIMETABLES,"$COL_TIMETABLE_ID=?", arrayOf(data.id.toString()))
-        data.activities.forEach({
-            db.delete(TABLE_TIMETABLE,"$COL_ID=?", arrayOf(it.id.toString()))
-        })
+        db.delete(TABLE_TIMETABLE,"$COL_NAME=?", arrayOf(data.name))
+        val c = db.rawQuery("SELECT ID FROM $TABLE_TIMETABLE WHERE $COL_NAME = ${data.name}",null)
+        c.moveToFirst()
+        val timetableID=c.getInt(0)
+        c.close()
+
+        var qry = db.rawQuery("SELECT $COL_ACTIVITY_ID FROM $TABLE_TIMETABLE WHERE $COL_TIMETABLE_ID = $timetableID",null)
+        if(qry.moveToFirst())
+        do{
+            db.execSQL("DELETE FROM $TABLE_ACTIVITIES WHERE $COL_ID = ${qry.getInt(0)}")
+        }while (qry.moveToNext())
+        qry.close()
+        db.delete(TABLE_ACTIVITIES_TO_TIMETABLES,"$COL_TIMETABLE_ID=?", arrayOf(timetableID.toString()))
         //db.delete(TABLE_ACTIVITIES,"$COL_ID=?", arrayOf(data.activ))
         db.close()
     }
