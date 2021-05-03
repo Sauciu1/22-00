@@ -51,7 +51,7 @@ class WallpaperRodymas : WallpaperService() {
                        //Ekrano Plotis, aukstis ir laikas
 
 
-                       fun PieskKvadrata(Eile: Int, Pradzia: Int, Ilgis: Int, Pavadinimas: String, spalva: String) {
+                fun PieskKvadrata( Eile: Int, Pradzia: Int, Ilgis: Int, Pavadinimas: String, spalva: String) {
                            val kvadratas = Paint()
                            kvadratas.style = Paint.Style.FILL
                            kvadratas.color = Color.parseColor(spalva)
@@ -60,7 +60,7 @@ class WallpaperRodymas : WallpaperService() {
 
                            val KvadratoKoordinates = RectF(
                                    (Plotis / 81 + (Eile * Plotis / 3)).toFloat(),  // desine x
-                                   (Aukstis * Pradzia / LaikoDydis).toFloat(),  // virsus y
+                                   (Aukstis * (Pradzia) / LaikoDydis ).toFloat(),  // virsus y
                                    (Plotis * 26 / 81 + (Eile * Plotis / 3)).toFloat(),  // kaire x
                                    (Aukstis * (Pradzia + Ilgis) / LaikoDydis).toFloat() // apacia y
                            )
@@ -128,19 +128,60 @@ class WallpaperRodymas : WallpaperService() {
                            }
 
                        }
+                fun PieskSkale(Kaire:Int, Desine:Int, Pradzia: Int, Ilgis: Int, spalva: String) {
+                    var Pradzia2 = Pradzia - Ilgis
+                    val kvadratas = Paint()
+                    kvadratas.style = Paint.Style.FILL
+                    kvadratas.color = Color.parseColor(spalva)
+                    kvadratas.isAntiAlias = true
+
+
+                    val KvadratoKoordinates = RectF(
+                            Desine.toFloat(),  // desine x
+                            (Aukstis * Pradzia2 / LaikoDydis).toFloat(),  // virsus y
+                            Kaire.toFloat(),  // kaire x
+                            (Aukstis * (Pradzia2 + Ilgis) / LaikoDydis).toFloat() // apacia y
+                    )
+
+                    val KampuApvalumas = 50
+                    canvas.drawRoundRect(
+                            KvadratoKoordinates,  // rect
+                            KampuApvalumas.toFloat(),  // rx
+                            KampuApvalumas.toFloat(),  // ry
+                            kvadratas // Paint
+                    )
 
 
 
+                }
+                fun Skale(kartok : Int, Spalva: String) {
+                    PieskSkale(-10, Plotis + 10, 15, 1, Spalva)
 
-                       PieskKvadrata(0, LaikoDydis - sekunde, 20, "lietuviu kalba man nepatinka", "#FF0000")
-                       PieskKvadrata(1, 10, 50, "Matematika", "#0000FF")
-                       PieskKvadrata(2, 14, 15, "ITM", "#00FF00")
+                    for (i in 1..kartok){
+                        PieskSkale(-10, Plotis / 8, 60*i + 15, 1, Spalva)
+                        PieskSkale(Plotis / 8 * 7, Plotis + 10, 60*i + 15, 1, Spalva)
+                    }
+                }
+                //// Nuo čia piešiame kvadratus ir visą kitą
 
 
 
+                fun PateikKvadrata( Eile: Int, Pradzia: Int, Ilgis: Int, Pavadinimas: String, spalva: String){
+                    
+                    PieskKvadrata(0, LaikoDydis - sekunde*6, 20, "lietuviu kalba man nepatinka", "#FF0000")
 
+                }
+
+                PateikKvadrata(0, 1, 20, "lietuviu kalba man nepatinka", "#FF0000")
+
+
+
+                        Skale(6,"#000000")
                        surfaceHolder.unlockCanvasAndPost(canvas)
                    }
+
+
+
                 Keitimas()
 
                 val Kartojimas = Handler(Looper.getMainLooper())
@@ -148,7 +189,7 @@ class WallpaperRodymas : WallpaperService() {
             Kartojimas.post(object : Runnable {
                        override fun run() {
                            Keitimas()
-                           Kartojimas.postDelayed(this, 1000)
+                           Kartojimas.postDelayed(this, 1000*2)
                        }
                    })
 
