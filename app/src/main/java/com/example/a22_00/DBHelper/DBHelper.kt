@@ -26,7 +26,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         private  val COL_DESCRIPTION="Description"
 
         //table activities
-        private  val TABLE_ACTIVITIES="Timetables"
+        private  val TABLE_ACTIVITIES="Activities"
         //private  val COL_ID="Id"
         //private  val COL_NAME="Name"
         private  val COL_BEGINING="Begining"
@@ -43,7 +43,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         var CREATE_TABLE_QUERY:String = ("CREATE TABLE IF NOT EXISTS $TABLE_TIMETABLE ($COL_ID INTEGER PRIMARY KEY,$COL_NAME TEXT,$COL_DESCRIPTION TEXT)")
         db!!.execSQL(CREATE_TABLE_QUERY);
 
-        CREATE_TABLE_QUERY = ("CREATE TABLE IF NOT EXISTS $TABLE_ACTIVITIES ($COL_ID INTEGER PRIMARY KEY,$COL_NAME TEXT,$COL_BEGINING TEXT,$COL_BEGINING TEXT, $COL_DURATION INTEGER, $COL_COLOR TEXT)")
+        CREATE_TABLE_QUERY = ("CREATE TABLE IF NOT EXISTS $TABLE_ACTIVITIES ($COL_ID INTEGER PRIMARY KEY,$COL_NAME TEXT,$COL_BEGINING TEXT, $COL_DURATION INTEGER, $COL_COLOR TEXT)")
         db!!.execSQL(CREATE_TABLE_QUERY);
 
         CREATE_TABLE_QUERY = ("CREATE TABLE IF NOT EXISTS $TABLE_ACTIVITIES_TO_TIMETABLES ($COL_TIMETABLE_ID INTEGER,$COL_ACTIVITY_ID INTEGER, FOREIGN KEY('$COL_TIMETABLE_ID') REFERENCES '$TABLE_TIMETABLE'('$COL_ID'),  FOREIGN KEY('$COL_ACTIVITY_ID') REFERENCES '$TABLE_ACTIVITIES'('$COL_ID') ) ")
@@ -80,7 +80,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
                 val activity = com.example.a22_00.Model.Activity()
                 //activity.id = cursor.getInt(cursor.getColumnIndex(COL_ID))
                 activity.name = cursor.getString(cursor.getColumnIndex(COL_NAME))
-                activity.begining = LocalTime.parse(cursor.getString(cursor.getColumnIndex(COL_BEGINING)), DateTimeFormatter.BASIC_ISO_DATE)
+                activity.begining = LocalTime.parse(cursor.getString(cursor.getColumnIndex(COL_BEGINING)), DateTimeFormatter.ISO_LOCAL_TIME)
                 activity.duration = cursor.getInt(cursor.getColumnIndex(COL_DURATION)).toLong()
                 activity.color = Color.valueOf((Color.parseColor(cursor.getString(cursor.getColumnIndex(COL_COLOR)))))
                 activities[cursor.getInt(cursor.getColumnIndex(COL_ID))] = activity
@@ -104,6 +104,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         db.close()
         return ((data.toList() as ArrayList<Pair<Int,Timetable>>).map{ it.second }.toList() as ArrayList<Timetable>)
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     fun insertTimetable(data:Timetable){
         val db = this.writableDatabase
         /*val query = "INSERT $TABLE_NAME VALUE("+data.id+", "+data.name+", "+data.description+") "
@@ -115,11 +116,11 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         val timetableID = db.insert(TABLE_TIMETABLE,null,values)
         values.clear()
         data.activities.forEach({
-            //values.put(COL_ID,it.id)
+            //values.put(COL_ID,null)
             values.put(COL_NAME,it.name)
             values.put(COL_BEGINING,it.begining.toString())
             values.put(COL_DURATION,it.duration)
-            values.put(COL_COLOR,it.color.toString())
+            values.put(COL_COLOR, "#" + Integer.toHexString(it.color!!.toArgb()).substring(2))
             val activityID=db.insert(TABLE_ACTIVITIES,null,values)
             values.clear()
             values.put(COL_TIMETABLE_ID,timetableID)
@@ -129,6 +130,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         })
         db.close()
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     fun updateTimetable(data:Timetable){
         val db = this.writableDatabase
         val values = ContentValues()
@@ -145,7 +147,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
                 values.put(COL_NAME,it.name)
                 values.put(COL_BEGINING,it.begining.toString())
                 values.put(COL_DURATION,it.duration)
-                values.put(COL_COLOR,it.color.toString())
+                values.put(COL_COLOR,"#" + Integer.toHexString(it.color!!.toArgb()).substring(2))
                 var activityID=db.insert(TABLE_ACTIVITIES,null,values)
                 values.clear()
                 values.put(COL_TIMETABLE_ID,timetableID)

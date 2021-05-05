@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.a22_00.DBHelper.DBHelper
+import com.example.a22_00.Model.Timetable
 import java.io.IOException
 import java.io.InputStream
 import java.lang.Exception
@@ -32,10 +34,12 @@ class MainActivity : AppCompatActivity() {
             ComponentName(this, WallpaperRodymas::class.java)
         )
         startActivity(intent)
+        //val db = DBHelper(this.applicationContext)
+        //db.onUpgrade(db.writableDatabase,0,1)
+        //db.insertTimetable(Timetable())
         val textView = findViewById<TextView>(R.id.textView)
         val data = readFromAsset()
         textView.setText(data)
-
 
     }
     private fun readFromAsset(): String {
