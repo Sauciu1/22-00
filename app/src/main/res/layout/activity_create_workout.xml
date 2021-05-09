@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#6C6C6C"
+    tools:context=".CreateWorkout">
+
+    <EditText
+        android:id="@+id/InputOfWN"
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:autofillHints="Input"
+        android:hint="Input te name of your timetable"
+        android:inputType="text"
+        android:layout_alignParentTop="true"/>
+
+    <EditText
+        android:id="@+id/InputOfWD"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:autofillHints="Input"
+        android:hint="Input the description of your timetable"
+        android:inputType="text"
+        android:layout_below="@+id/InputOfWN"
+        />
+    <Button
+        android:id="@+id/OpenActivities"
+        android:layout_width="143dp"
+        android:layout_height="70dp"
+        android:backgroundTint="#171616"
+        android:text="Next"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        />
+    <Button
+        android:id="@+id/CancelWorkout"
+        android:layout_width="143dp"
+        android:layout_height="70dp"
+        android:backgroundTint="#171616"
+        android:text="Cancel"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        />
+</RelativeLayout>
