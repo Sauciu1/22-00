@@ -2,13 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.a22_00">
 
-
-
-
     <uses-feature
         android:name="android.software.live_wallpaper"
         android:required="true" />
-
 
     <application
         android:allowBackup="true"
@@ -17,6 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.2200">
+        <activity android:name=".CreateActivities"/>
+        <activity android:name=".CreateWorkout" />
+
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/my_wallpaper" />
@@ -28,9 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-
 
         <service
             android:name=".WallpaperRodymas"
@@ -44,14 +40,6 @@
                 android:name="android.service.wallpaper"
                 android:resource="@xml/my_wallpaper" />
         </service>
-
-
-
-
-
-
-
-
     </application>
 
 </manifest>
