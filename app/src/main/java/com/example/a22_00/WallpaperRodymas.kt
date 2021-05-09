@@ -29,7 +29,9 @@ class WallpaperRodymas : WallpaperService() {
         var pradeta = 0
        @RequiresApi(Build.VERSION_CODES.O)
        override fun onTouchEvent(event: MotionEvent?) {
-
+           val timetables = db.getAllTimetables()
+           timetables.forEach{ println(it.name+":"); it.activities.forEach{ println("   "+it.name+"||||"+it.begining.toString()+"||||"+it.minutesTillStart())}}
+        //println(("tvarkarasciu yra"+db.getAllTimetables().size.toString()))
           // if (event?.action == MotionEvent.ACTION_DOWN) {
         if(pradeta == 0){
             pradeta =1

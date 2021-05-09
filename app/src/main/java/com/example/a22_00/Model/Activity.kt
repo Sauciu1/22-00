@@ -5,6 +5,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import java.sql.Time
 import java.time.LocalTime
+import java.time.temporal.ChronoUnit
+import java.time.temporal.Temporal
+import java.time.temporal.TemporalUnit
 
 class Activity {
     //var  id: Int = 0
@@ -21,5 +24,10 @@ class Activity {
         this.begining = begining
         this.duration = durationInMinutes
         this.color = color
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun minutesTillStart(): Long{
+        return LocalTime.now().until(begining, ChronoUnit.MINUTES)
     }
 }
