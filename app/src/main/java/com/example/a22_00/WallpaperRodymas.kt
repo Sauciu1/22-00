@@ -29,7 +29,9 @@ class WallpaperRodymas : WallpaperService() {
         var pradeta = 0
        @RequiresApi(Build.VERSION_CODES.O)
        override fun onTouchEvent(event: MotionEvent?) {
-
+           val timetables = db.getAllTimetables()
+           timetables.forEach{ println(it.name+":"); it.activities.forEach{ println("   "+it.name+"||||"+it.begining.toString()+"||||"+it.minutesTillStart())}}
+        //println(("tvarkarasciu yra"+db.getAllTimetables().size.toString()))
           // if (event?.action == MotionEvent.ACTION_DOWN) {
         if(pradeta == 0){
             pradeta =1
@@ -162,11 +164,10 @@ class WallpaperRodymas : WallpaperService() {
 
                 }
                 fun Skale(kartok : Int, Spalva: String) {
-                    PieskSkale(-10, Plotis + 10, 15, 1, Spalva)
-
+                    PieskSkale(-10, Plotis + 10, 30, 2, Spalva)
                     for (i in 1..kartok){
-                        PieskSkale(-10, Plotis / 8, 60*i + 15, 1, Spalva)
-                        PieskSkale(Plotis / 8 * 7, Plotis + 10, 60*i + 15, 1, Spalva)
+                        PieskSkale(-10, Plotis / 8, 60*i + 30, 1, Spalva)
+                        PieskSkale(Plotis / 8 * 7, Plotis + 10, 60*i + 30, 1, Spalva)
                     }
                 }
                 //// Nuo čia piešiame kvadratus ir visą kitą

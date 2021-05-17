@@ -15,4 +15,6 @@ class Timetable {
         this.description = description
         this.activities = activities
     }
+
+
 }
