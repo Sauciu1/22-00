@@ -28,6 +28,12 @@
         android:layout_marginTop="10dp"
         android:backgroundTint="#171616"
         android:text="Create Wallpaper" />
+    <ListView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_marginTop="100dp"
+        android:id="@+id/listView"
+        />
 
     <!--    <Button-->
 <!--        android:id="@+id/showInput"-->
