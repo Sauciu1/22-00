@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.*
 import com.example.a22_00.R
 
-class MyListAdapter(private val context: Activity, private val title: Array<String>, private val description: Array<String>)
-    : ArrayAdapter<String>(context, R.layout.row, title) {
+class MyListAdapter(private val context: Activity, private val timetables: Array<Timetable>)
+    : ArrayAdapter<String>(context, R.layout.row, timetables.mapNotNull { it.name }.toTypedArray()) {
 
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
@@ -15,9 +15,13 @@ class MyListAdapter(private val context: Activity, private val title: Array<Stri
 
         val titleText = rowView.findViewById(R.id.title) as TextView
         val subtitleText = rowView.findViewById(R.id.description) as TextView
+        val listView = rowView.findViewById(R.id.activitylist) as ListView
 
-        titleText.text = title[position]
-        subtitleText.text = description[position]
+        //val myListAdapter = MyListAdapter(this,data.toTypedArray())
+        listView.adapter = ActivityListAdapter(context, timetables[position].activities.toTypedArray())
+
+        titleText.text = timetables[position].name
+        subtitleText.text = timetables[position].description
 
         return rowView
     }

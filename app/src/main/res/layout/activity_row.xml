@@ -10,31 +10,26 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:id="@+id/cntactivity">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Timetable Name"
+            android:text="Activity name"
             android:layout_margin="5dp"
             android:textSize="20sp"
-            android:id="@+id/title"
+            android:id="@+id/activityname"
                 />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:text="Activity description"
             android:layout_margin="5dp"
             android:textSize="15sp"
-            android:id="@+id/description"
+            android:id="@+id/activitydescription"
             />
-
-        <ListView
-            android:id="@+id/activitylist"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="0dp" />
     </LinearLayout>
 
 </LinearLayout>
