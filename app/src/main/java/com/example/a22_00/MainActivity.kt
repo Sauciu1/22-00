@@ -5,14 +5,15 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.a22_00.DBHelper.DBHelper
+import com.example.a22_00.Model.MyListAdapter
 import com.example.a22_00.Model.Timetable
 import org.w3c.dom.Text
 import java.io.IOException
@@ -23,6 +24,10 @@ import java.lang.Exception
 class MainActivity : AppCompatActivity() {
     //internal lateinit var db:DBHelper
 
+
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,10 +50,25 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         openCreateW.setOnClickListener {
-            val intent = Intent(this, CreateWorkout::class.java)
-            startActivity(intent)
+            val prButton = Intent(this, CreateWorkout::class.java)
+            startActivity(prButton)
         }
 
+
+        val db = DBHelper(this.applicationContext)
+        val data = db.getAllTimetables()
+        // Čia reikia db data pversi į array ir tada galima sitas kodas veiks
+        val listView = findViewById<ListView>(R.id.listView)  //formos elementas kuriame sis sarasas yra sukuriamas
+        /*val names = data.mapNotNull{it.name}.toTypedArray()
+        val descriptions = data.mapNotNull { it.description+"\n${it.activities.size}" }.toTypedArray()*/
+        val myListAdapter = MyListAdapter(this,data.toTypedArray())
+        listView.adapter = myListAdapter
+
+        listView.setOnItemClickListener(){adapterView, view, position, id ->
+            val itemAtPos = adapterView.getItemAtPosition(position)
+            val itemIdAtPos = adapterView.getItemIdAtPosition(position)
+            Toast.makeText(this, "Click on item at $itemAtPos its item id $itemIdAtPos", Toast.LENGTH_LONG).show()
+        }
         //val db = DBHelper(this.applicationContext)
         //db.onUpgrade(db.writableDatabase,0,1)
         //db.insertTimetable(Timetable())
