@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    >
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:id="@+id/cntactivity">
+
+        <EditText
+            android:id="@+id/editTextActivityName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:enabled="true"
+            android:hint="Activity name"
+            android:inputType="textPersonName" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:enabled="true"
+            android:padding="1dp"
+            >
+
+            <EditText
+                android:id="@+id/editTextActivityTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:enabled="true"
+                android:hint="Begining time"
+
+                android:inputType="time" />
+
+            <EditText
+                android:id="@+id/editTextActivityDuration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:enabled="true"
+                android:hint="Duration"
+
+                android:inputType="number" />
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="1dp"
+            >
+
+            <Button
+                android:id="@+id/colorPicker"
+                android:layout_width="317dp"
+                android:layout_height="wrap_content"
+                android:enabled="true"
+                android:text="Change activity color" />
+
+            <Button
+                android:id="@+id/deleteThisActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:enabled="true"
+                app:icon="@android:drawable/ic_menu_delete"
+                app:iconTintMode="multiply" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
