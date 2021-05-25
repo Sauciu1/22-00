@@ -1,6 +1,5 @@
 package com.example.a22_00
 
-import android.content.Context
 import android.graphics.*
 import android.os.Build
 import android.os.Handler
@@ -9,10 +8,9 @@ import android.service.wallpaper.WallpaperService
 import android.view.MotionEvent
 import androidx.annotation.RequiresApi
 import com.example.a22_00.DBHelper.DBHelper
-import com.example.a22_00.Model.Activity
-import com.example.a22_00.Model.Timetable
+import java.lang.Integer.max
+import java.lang.Math.min
 import java.time.LocalTime
-import kotlin.concurrent.fixedRateTimer
 import kotlin.random.Random
 
 class WallpaperRodymas : WallpaperService() {
@@ -26,15 +24,22 @@ class WallpaperRodymas : WallpaperService() {
 
         @RequiresApi(Build.VERSION_CODES.O)
 
-        var pradeta = 0
+        var pradeta = 1
        @RequiresApi(Build.VERSION_CODES.O)
        override fun onTouchEvent(event: MotionEvent?) {
            val timetables = db.getAllTimetables()
-           timetables.forEach{ println(it.name+":"); it.activities.forEach{ println("   "+it.name+"||||"+it.begining.toString()+"||||"+it.minutesTillStart())}}
-        //println(("tvarkarasciu yra"+db.getAllTimetables().size.toString()))
+           var r = 100
+           var b = 100
+           var g = 100
+
           // if (event?.action == MotionEvent.ACTION_DOWN) {
-        if(pradeta == 0){
-            pradeta =1
+        if(pradeta == 1){
+            pradeta =0
+
+
+
+
+
 
             @RequiresApi(Build.VERSION_CODES.O)
             fun Keitimas() {
@@ -47,10 +52,16 @@ class WallpaperRodymas : WallpaperService() {
 
                        fun FonoSpalva() {
                            val paint = Paint().apply {
-                               val randomColor = Random.nextInt(16_777_216)
-                                       .toString(16)
-                                       .padStart(6, '0')
-                               color = Color.parseColor("#$randomColor")
+                                fun Atsitiktinis():Int{
+                                    val atsitik = Random.nextInt(-5,5)
+                                    return atsitik
+                                }
+                               r=min(max(0,  r+Atsitiktinis()),255)
+                               b=min(max(0, b+Atsitiktinis()),255)
+                               g=min(max(0, g+Atsitiktinis()),255)
+
+                               val hex = java.lang.String.format("#%02x%02x%02x", r, g, b)
+                               color= Color.parseColor(hex)
                                style = Paint.Style.FILL
                            }
                            canvas.drawPaint(paint)
@@ -60,10 +71,10 @@ class WallpaperRodymas : WallpaperService() {
                        //Ekrano Plotis, aukstis ir laikas
 
 
-                fun PieskKvadrata( Eile: Int, Pradzia: Int, Ilgis: Int, Pavadinimas: String, spalva: String) {
+                fun PieskKvadrata( Eile: Int, Pradzia: Int, Ilgis: Int, Pavadinimas: String, spalva: Color) {
                            val kvadratas = Paint()
                            kvadratas.style = Paint.Style.FILL
-                           kvadratas.color = Color.parseColor(spalva)
+                           kvadratas.color = spalva.toArgb()
                            kvadratas.isAntiAlias = true
 
 
@@ -98,11 +109,6 @@ class WallpaperRodymas : WallpaperService() {
                                var TekstoAukstis = Ribos.height()
                                var TekstoPlotis = Ribos.width()
 
-                               println("pirmas")
-                               println(Ilgis * Aukstis / LaikoDydis)
-                               println(TekstoAukstis)
-                               println(TekstoPlotis)
-
 
                                TekstoSavybes.textSize = (1f * Plotis / 3.5f / TekstoPlotis * TekstoSavybes.textSize)
                                if (Tekstas.length < 5) TekstoSavybes.textSize = TekstoSavybes.textSize * Tekstas.length / 6
@@ -116,12 +122,8 @@ class WallpaperRodymas : WallpaperService() {
                                TekstoAukstis = Ribos.height()
                                TekstoPlotis = Ribos.width()
 
-                               println("antras")
-                               println(TekstoAukstis)
-                               println(TekstoPlotis)
 
 
-                               println(TekstoPlotis)
                                canvas.drawText(Tekstas, (Plotis / 6 + (Eile * Plotis / 3)).toFloat(), (TekstoAukstis * 2f * Kartojimas + Aukstis * Pradzia / LaikoDydis), TekstoSavybes)
                                return TekstoAukstis.toFloat()
                            }
@@ -138,7 +140,7 @@ class WallpaperRodymas : WallpaperService() {
 
                        }
                 fun PieskSkale(Kaire:Int, Desine:Int, Pradzia: Int, Ilgis: Int, spalva: String) {
-                    var Pradzia2 = Pradzia - Ilgis
+                    val Pradzia2 = Pradzia - Ilgis
                     val kvadratas = Paint()
                     kvadratas.style = Paint.Style.FILL
                     kvadratas.color = Color.parseColor(spalva)
@@ -163,11 +165,17 @@ class WallpaperRodymas : WallpaperService() {
 
 
                 }
-                fun Skale(kartok : Int, Spalva: String) {
-                    PieskSkale(-10, Plotis + 10, 30, 2, Spalva)
+                fun Skale(kartok : Int) {
+                    PieskSkale(-10, Plotis + 10, 33, 2, "#000000")
+                    PieskSkale(-10, Plotis + 10, 31, 1, "#ffffff")
+                    PieskSkale(-10, Plotis + 10, 29, 1, "#ffffff")
+                    PieskSkale(-10, Plotis + 10, 28, 2, "#000000")
+
                     for (i in 1..kartok){
-                        PieskSkale(-10, Plotis / 8, 60*i + 30, 1, Spalva)
-                        PieskSkale(Plotis / 8 * 7, Plotis + 10, 60*i + 30, 1, Spalva)
+                        PieskSkale(-10, Plotis / 16, 60*i + 31, 3, "#000000")
+                        PieskSkale(-10, Plotis / 17, 60*i + 30, 1, "#ffffff")
+                        PieskSkale(Plotis / 16 * 15, Plotis + 10, 60*i + 31, 3, "#000000")
+                        PieskSkale(Plotis / 17 * 16, Plotis + 10, 60*i + 30, 1, "#ffffff")
                     }
                 }
                 //// Nuo čia piešiame kvadratus ir visą kitą
@@ -176,15 +184,86 @@ class WallpaperRodymas : WallpaperService() {
 
                 fun PateikKvadrata( Eile: Int, Pradzia: Int, Ilgis: Int, Pavadinimas: String, spalva: String){
 
-                    PieskKvadrata(0, LaikoDydis - sekunde*6, 20, "lietuviu kalba man nepatinka", "#FF0000")
+                    //PieskKvadrata(Eile, LaikoDydis - sekunde*6, 20, "lietuviu kalba man nepatinka", "#FF0000")
 
                 }
 
                 PateikKvadrata(0, 1, 20, "lietuviu kalba man nepatinka", "#FF0000")
+                //vaziuojam - eile
+/*
+                class ArrayListQueue<T> : Queue<T> {
+                    private val list = arrayListOf<T>()
+                }
+                val eile1 = ArrayListQueue <Int>
+*/
+
+                //minutes till start
+
+                val data = db.getAllTimetables()
+                var nulis=-500
+                var vienas=-500
+                var du=-500
+                var kuris=-1
+                 timetables.forEach{
+                    // println(it.name+":");
+                     it.activities.forEach{
+                         //println("   "+it.name+"||||"+it.begining.toString()+"||||"+it.minutesTillStart()+"||||"+it.duration+"||||"+it.color)
+
+                         if(it.minutesTillStart() + it.duration >-30 && it.minutesTillStart() <360){
+                            /// reikia pasirinkti kokiu budu rinktis ka rodyti
+/*
+                            var kuris=0
+                             if(nulis <= it.minutesTillStart()){
+                                 nulis = (it.minutesTillStart() + it.duration).toInt()
+                             }
+                             else{
+                                 if(vienas <= it.minutesTillStart()){
+                                     vienas = (it.minutesTillStart() + it.duration).toInt()
+                                     kuris=1
+                                 }
+                                 else {
+                                     du = (it.minutesTillStart() + it.duration).toInt()
+                                     kuris=2
+                                    }
+                                 }
+                             */
+
+
+                             //println("vertes " + nulis.toString() + " | " + vienas.toString()+ " | " + du.toString())
+                             kuris=(kuris+1)%3
+                             PieskKvadrata(kuris, (it.minutesTillStart() +30).toInt(), it.duration.toInt(),it.name, it.color!!)
+                             }
 
 
 
-                        Skale(6,"#000000")
+
+                         }
+                     }
+                    println("baigta")
+                //println(("tvarkarasciu yra"+db.getAllTimetables().size.toString()))
+
+
+                data.forEach{
+                    it.activities.forEach{
+                        println(it)
+                    }
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //
+
+                        Skale(6)
                        surfaceHolder.unlockCanvasAndPost(canvas)
                    }
 

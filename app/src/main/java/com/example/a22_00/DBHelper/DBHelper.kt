@@ -102,7 +102,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         }
         cursor.close()
         db.close()
-        return ((data.toList() as ArrayList<Pair<Int,Timetable>>).map{ it.second }.toList() as ArrayList<Timetable>)
+       return ((data.toList() as ArrayList<Pair<Int,Timetable>>).map{ it.second }.toList() as ArrayList<Timetable>)
     }
     @RequiresApi(Build.VERSION_CODES.O)
     fun insertTimetable(data:Timetable){
