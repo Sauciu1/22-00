@@ -1,6 +1,5 @@
 package com.example.a22_00
 
-import android.content.Context
 import android.graphics.*
 import android.os.Build
 import android.os.Handler
@@ -9,13 +8,10 @@ import android.service.wallpaper.WallpaperService
 import android.view.MotionEvent
 import androidx.annotation.RequiresApi
 import com.example.a22_00.DBHelper.DBHelper
-import com.example.a22_00.Model.Activity
-import com.example.a22_00.Model.Timetable
+import java.lang.Integer.max
+import java.lang.Math.min
 import java.time.LocalTime
-import kotlin.concurrent.fixedRateTimer
 import kotlin.random.Random
-import java.util.Queue
-import java.util.LinkedList
 
 class WallpaperRodymas : WallpaperService() {
     override fun onCreateEngine(): Engine = WallpaperEngine()
@@ -32,6 +28,9 @@ class WallpaperRodymas : WallpaperService() {
        @RequiresApi(Build.VERSION_CODES.O)
        override fun onTouchEvent(event: MotionEvent?) {
            val timetables = db.getAllTimetables()
+           var r = 100
+           var b = 100
+           var g = 100
 
           // if (event?.action == MotionEvent.ACTION_DOWN) {
         if(pradeta == 1){
@@ -53,10 +52,16 @@ class WallpaperRodymas : WallpaperService() {
 
                        fun FonoSpalva() {
                            val paint = Paint().apply {
-                               val randomColor = Random.nextInt(16_777_216)
-                                       .toString(16)
-                                       .padStart(6, '0')
-                               color = Color.parseColor("#$randomColor")
+                                fun Atsitiktinis():Int{
+                                    val atsitik = Random.nextInt(-5,5)
+                                    return atsitik
+                                }
+                               r=min(max(0,  r+Atsitiktinis()),255)
+                               b=min(max(0, b+Atsitiktinis()),255)
+                               g=min(max(0, g+Atsitiktinis()),255)
+
+                               val hex = java.lang.String.format("#%02x%02x%02x", r, g, b)
+                               color= Color.parseColor(hex)
                                style = Paint.Style.FILL
                            }
                            canvas.drawPaint(paint)
@@ -258,7 +263,7 @@ class WallpaperRodymas : WallpaperService() {
 
                 //
 
-                        Skale(6,)
+                        Skale(6)
                        surfaceHolder.unlockCanvasAndPost(canvas)
                    }
 
