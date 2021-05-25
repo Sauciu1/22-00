@@ -13,12 +13,14 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.a22_00.DBHelper.DBHelper
+import com.example.a22_00.Model.Activity
 import com.example.a22_00.Model.MyListAdapter
 import com.example.a22_00.Model.Timetable
 import org.w3c.dom.Text
 import java.io.IOException
 import java.io.InputStream
 import java.lang.Exception
+import java.time.LocalTime
 
 
 class MainActivity : AppCompatActivity() {
@@ -56,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
 
         val db = DBHelper(this.applicationContext)
-        //db.insertTimetable(Timetable())
+        db.insertTimetable(Timetable())
         val data = db.getAllTimetables()
         // Čia reikia db data pversi į array ir tada galima sitas kodas veiks
         val listView = findViewById<ListView>(R.id.listView)  //formos elementas kuriame sis sarasas yra sukuriamas
@@ -64,6 +66,19 @@ class MainActivity : AppCompatActivity() {
         val descriptions = data.mapNotNull { it.description+"\n${it.activities.size}" }.toTypedArray()*/
         val myListAdapter = MyListAdapter(this,data.toTypedArray())
         listView.adapter = myListAdapter
+
+
+
+
+        // informacija kodui, reikes pasalinti:
+       // db.onUpgrade(db.readableDatabase 10 10)
+        val t = Timetable("Lenkai","Kai tragedija Lenkiškoji pareina, reikia gintis!",arrayListOf<Activity>(
+            Activity("Žudyk", LocalTime.of(15, 27), 120, Color.valueOf(Color.RED)),
+            Activity("Eik na", LocalTime.of(13, 0), 120, Color.valueOf(Color.GREEN)),
+            Activity("Paciulpk", LocalTime.of(13, 2), 120, Color.valueOf(Color.YELLOW)),
+            Activity("Ilsėkis", LocalTime.NOON, 120, Color.valueOf(Color.BLUE))
+        ))
+        db.insertTimetable(t)
 
         /*listView.setOnItemClickListener(){adapterView, view, position, id ->
             val itemAtPos = adapterView.getItemAtPosition(position)

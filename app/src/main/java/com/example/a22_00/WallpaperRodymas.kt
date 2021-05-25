@@ -14,6 +14,8 @@ import com.example.a22_00.Model.Timetable
 import java.time.LocalTime
 import kotlin.concurrent.fixedRateTimer
 import kotlin.random.Random
+import java.util.Queue
+import java.util.LinkedList
 
 class WallpaperRodymas : WallpaperService() {
     override fun onCreateEngine(): Engine = WallpaperEngine()
@@ -26,15 +28,19 @@ class WallpaperRodymas : WallpaperService() {
 
         @RequiresApi(Build.VERSION_CODES.O)
 
-        var pradeta = 0
+        var pradeta = 1
        @RequiresApi(Build.VERSION_CODES.O)
        override fun onTouchEvent(event: MotionEvent?) {
            val timetables = db.getAllTimetables()
-           timetables.forEach{ println(it.name+":"); it.activities.forEach{ println("   "+it.name+"||||"+it.begining.toString()+"||||"+it.minutesTillStart())}}
-        //println(("tvarkarasciu yra"+db.getAllTimetables().size.toString()))
+
           // if (event?.action == MotionEvent.ACTION_DOWN) {
-        if(pradeta == 0){
-            pradeta =1
+        if(pradeta == 1){
+            pradeta =0
+
+
+
+
+
 
             @RequiresApi(Build.VERSION_CODES.O)
             fun Keitimas() {
@@ -60,10 +66,10 @@ class WallpaperRodymas : WallpaperService() {
                        //Ekrano Plotis, aukstis ir laikas
 
 
-                fun PieskKvadrata( Eile: Int, Pradzia: Int, Ilgis: Int, Pavadinimas: String, spalva: String) {
+                fun PieskKvadrata( Eile: Int, Pradzia: Int, Ilgis: Int, Pavadinimas: String, spalva: Color) {
                            val kvadratas = Paint()
                            kvadratas.style = Paint.Style.FILL
-                           kvadratas.color = Color.parseColor(spalva)
+                           kvadratas.color = spalva.toArgb()
                            kvadratas.isAntiAlias = true
 
 
@@ -98,11 +104,6 @@ class WallpaperRodymas : WallpaperService() {
                                var TekstoAukstis = Ribos.height()
                                var TekstoPlotis = Ribos.width()
 
-                               println("pirmas")
-                               println(Ilgis * Aukstis / LaikoDydis)
-                               println(TekstoAukstis)
-                               println(TekstoPlotis)
-
 
                                TekstoSavybes.textSize = (1f * Plotis / 3.5f / TekstoPlotis * TekstoSavybes.textSize)
                                if (Tekstas.length < 5) TekstoSavybes.textSize = TekstoSavybes.textSize * Tekstas.length / 6
@@ -116,12 +117,8 @@ class WallpaperRodymas : WallpaperService() {
                                TekstoAukstis = Ribos.height()
                                TekstoPlotis = Ribos.width()
 
-                               println("antras")
-                               println(TekstoAukstis)
-                               println(TekstoPlotis)
 
 
-                               println(TekstoPlotis)
                                canvas.drawText(Tekstas, (Plotis / 6 + (Eile * Plotis / 3)).toFloat(), (TekstoAukstis * 2f * Kartojimas + Aukstis * Pradzia / LaikoDydis), TekstoSavybes)
                                return TekstoAukstis.toFloat()
                            }
@@ -138,7 +135,7 @@ class WallpaperRodymas : WallpaperService() {
 
                        }
                 fun PieskSkale(Kaire:Int, Desine:Int, Pradzia: Int, Ilgis: Int, spalva: String) {
-                    var Pradzia2 = Pradzia - Ilgis
+                    val Pradzia2 = Pradzia - Ilgis
                     val kvadratas = Paint()
                     kvadratas.style = Paint.Style.FILL
                     kvadratas.color = Color.parseColor(spalva)
@@ -176,13 +173,79 @@ class WallpaperRodymas : WallpaperService() {
 
                 fun PateikKvadrata( Eile: Int, Pradzia: Int, Ilgis: Int, Pavadinimas: String, spalva: String){
 
-                    PieskKvadrata(0, LaikoDydis - sekunde*6, 20, "lietuviu kalba man nepatinka", "#FF0000")
+                    //PieskKvadrata(Eile, LaikoDydis - sekunde*6, 20, "lietuviu kalba man nepatinka", "#FF0000")
 
                 }
 
                 PateikKvadrata(0, 1, 20, "lietuviu kalba man nepatinka", "#FF0000")
+                //vaziuojam - eile
+/*
+                class ArrayListQueue<T> : Queue<T> {
+                    private val list = arrayListOf<T>()
+                }
+                val eile1 = ArrayListQueue <Int>
+*/
+
+                //minutes till start
+
+                val data = db.getAllTimetables()
+                var nulis=-500
+                var vienas=-500
+                var du=-500
+
+                 timetables.forEach{
+                    // println(it.name+":");
+                     it.activities.forEach{
+                         //println("   "+it.name+"||||"+it.begining.toString()+"||||"+it.minutesTillStart()+"||||"+it.duration+"||||"+it.color)
+
+                         if(it.minutesTillStart() + it.duration >-30 && it.minutesTillStart() <360){
+                             var kuris =0
+
+                             if(nulis <= it.minutesTillStart()){
+                                 nulis = (it.minutesTillStart() + it.duration).toInt()
+                             }
+                             else{
+                                 if(vienas <= it.minutesTillStart()){
+                                     vienas = (it.minutesTillStart() + it.duration).toInt()
+                                     kuris=1
+                                 }
+                                 else {
+                                     du = (it.minutesTillStart() + it.duration).toInt()
+                                     kuris=2
+                                    }
+                                 }
+                             println("vertes " + nulis.toString() + " | " + vienas.toString()+ " | " + du.toString())
+                             PieskKvadrata(kuris, (it.minutesTillStart() +30).toInt(), it.duration.toInt(),it.name, it.color!!)
+                             }
 
 
+
+
+                         }
+                     }
+                    println("baigta")
+                //println(("tvarkarasciu yra"+db.getAllTimetables().size.toString()))
+
+
+                data.forEach{
+                    it.activities.forEach{
+                        println(it)
+                    }
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //
 
                         Skale(6,"#000000")
                        surfaceHolder.unlockCanvasAndPost(canvas)
