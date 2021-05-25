@@ -160,11 +160,17 @@ class WallpaperRodymas : WallpaperService() {
 
 
                 }
-                fun Skale(kartok : Int, Spalva: String) {
-                    PieskSkale(-10, Plotis + 10, 30, 2, Spalva)
+                fun Skale(kartok : Int) {
+                    PieskSkale(-10, Plotis + 10, 33, 2, "#000000")
+                    PieskSkale(-10, Plotis + 10, 31, 1, "#ffffff")
+                    PieskSkale(-10, Plotis + 10, 29, 1, "#ffffff")
+                    PieskSkale(-10, Plotis + 10, 28, 2, "#000000")
+
                     for (i in 1..kartok){
-                        PieskSkale(-10, Plotis / 8, 60*i + 30, 1, Spalva)
-                        PieskSkale(Plotis / 8 * 7, Plotis + 10, 60*i + 30, 1, Spalva)
+                        PieskSkale(-10, Plotis / 16, 60*i + 31, 3, "#000000")
+                        PieskSkale(-10, Plotis / 17, 60*i + 30, 1, "#ffffff")
+                        PieskSkale(Plotis / 16 * 15, Plotis + 10, 60*i + 31, 3, "#000000")
+                        PieskSkale(Plotis / 17 * 16, Plotis + 10, 60*i + 30, 1, "#ffffff")
                     }
                 }
                 //// Nuo čia piešiame kvadratus ir visą kitą
@@ -192,15 +198,16 @@ class WallpaperRodymas : WallpaperService() {
                 var nulis=-500
                 var vienas=-500
                 var du=-500
-
+                var kuris=-1
                  timetables.forEach{
                     // println(it.name+":");
                      it.activities.forEach{
                          //println("   "+it.name+"||||"+it.begining.toString()+"||||"+it.minutesTillStart()+"||||"+it.duration+"||||"+it.color)
 
                          if(it.minutesTillStart() + it.duration >-30 && it.minutesTillStart() <360){
-                             var kuris =0
-
+                            /// reikia pasirinkti kokiu budu rinktis ka rodyti
+/*
+                            var kuris=0
                              if(nulis <= it.minutesTillStart()){
                                  nulis = (it.minutesTillStart() + it.duration).toInt()
                              }
@@ -214,7 +221,11 @@ class WallpaperRodymas : WallpaperService() {
                                      kuris=2
                                     }
                                  }
-                             println("vertes " + nulis.toString() + " | " + vienas.toString()+ " | " + du.toString())
+                             */
+
+
+                             //println("vertes " + nulis.toString() + " | " + vienas.toString()+ " | " + du.toString())
+                             kuris=(kuris+1)%3
                              PieskKvadrata(kuris, (it.minutesTillStart() +30).toInt(), it.duration.toInt(),it.name, it.color!!)
                              }
 
@@ -247,7 +258,7 @@ class WallpaperRodymas : WallpaperService() {
 
                 //
 
-                        Skale(6,"#000000")
+                        Skale(6,)
                        surfaceHolder.unlockCanvasAndPost(canvas)
                    }
 

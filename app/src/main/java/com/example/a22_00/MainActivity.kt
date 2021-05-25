@@ -72,13 +72,16 @@ class MainActivity : AppCompatActivity() {
 
         // informacija kodui, reikes pasalinti:
        // db.onUpgrade(db.readableDatabase 10 10)
+
         val t = Timetable("Lenkai","Kai tragedija Lenkiškoji pareina, reikia gintis!",arrayListOf<Activity>(
-            Activity("Žudyk", LocalTime.of(15, 27), 120, Color.valueOf(Color.RED)),
-            Activity("Eik na", LocalTime.of(13, 0), 120, Color.valueOf(Color.GREEN)),
-            Activity("Paciulpk", LocalTime.of(13, 2), 120, Color.valueOf(Color.YELLOW)),
-            Activity("Ilsėkis", LocalTime.NOON, 120, Color.valueOf(Color.BLUE))
+            Activity("Ant", LocalTime.of(18, 0), 120, Color.valueOf(Color.RED)),
+            Activity("Kalno", LocalTime.of(18, 9), 120, Color.valueOf(Color.GREEN)),
+            Activity("Murai", LocalTime.of(18, 12), 120, Color.valueOf(Color.YELLOW)),
+            Activity("Joja", LocalTime.of(19,0), 120, Color.valueOf(Color.BLUE)),
+            Activity("Lietuviai", LocalTime.of(21,0), 120, Color.valueOf(Color.RED))
         ))
         db.insertTimetable(t)
+
 
         /*listView.setOnItemClickListener(){adapterView, view, position, id ->
             val itemAtPos = adapterView.getItemAtPosition(position)
