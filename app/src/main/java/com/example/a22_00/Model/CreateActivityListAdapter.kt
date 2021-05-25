@@ -1,14 +1,18 @@
 package com.example.a22_00.Model
 
 import android.app.Activity
+import android.app.TimePickerDialog
 import android.graphics.Color
 import android.os.Build
+import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import com.example.a22_00.R
 import yuku.ambilwarna.AmbilWarnaDialog
+import java.time.LocalTime
+import java.util.function.Consumer
 
 //class CreateActivityListAdapter(private val context: Activity, private val activities: Array<com.example.a22_00.Model.Activity>): ArrayAdapter<String>(context, R.layout.row, activities.mapNotNull { it.name }.toTypedArray()) {
 class CreateActivityListAdapter(private val context: Activity, private val activities: ArrayList<com.example.a22_00.Model.Activity>): ArrayAdapter<com.example.a22_00.Model.Activity>(context, R.layout.create_activity_row, activities.toTypedArray()) {
@@ -19,20 +23,46 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
         val inflater = context.layoutInflater
         val rowView = inflater.inflate(R.layout.create_activity_row, null, true)
 
+        //Debugging
+        println("sukuriau vieneta")
+
+        //EditText Name
         val txtName = rowView.findViewById<EditText>(R.id.editTextActivityName)
-        txtName.setText(activities[position].name)// = activities[position].name
-        txtName.onFocusChangeListener = View.OnFocusChangeListener{v, hasFocus -> if(!hasFocus)activities[position].name = (v as EditText).text.toString() else (v as EditText).setText(activities[position].name)}
-        val txtTime = rowView.findViewById<EditText>(R.id.editTextActivityTime)
-        txtTime.isEnabled = true
+        txtName.setText(activities[position].name)
+        txtName.onFocusChangeListener = View.OnFocusChangeListener{v, hasFocus -> if(!hasFocus)activities[position].name = (v as EditText).text.toString()}// .setText(activities[position].name)}
+
+        //Button setTime
+        val btnTime = rowView.findViewById<Button>(R.id.editTextActivityTime)
+        btnTime.setText(activities[position].begining.toString())
+        btnTime.setOnClickListener {
+            val timePickerDialog = TimePickerDialog(context, TimePickerDialog.OnTimeSetListener({view,hourOfDay,minute ->activities[position].begining = LocalTime.of(hourOfDay, minute); btnTime.setText(activities[position].begining.toString())}),activities[position].begining.hour,activities[position].begining.second,true)
+            timePickerDialog.show()
+        }
+
+        //Button Duration
+        val numDuration = rowView.findViewById<NumberPickerElement>(R.id.editTextActivityDuration)
+        numDuration.min=0
+        numDuration.max=1440
+        numDuration.setValue(activities[position].duration.toInt())
+        numDuration.handler.addListener(Consumer { activities[position].duration= (it as Int).toLong() })// { v, hasFocus -> if(!hasFocus)activities[position].duration = ((v as NumberPickerElement).getValue().toLong()) }
+        /*numDuration.setOnClickListener {
+            val numberPickerDialog = NumberPicker(context,AttributeSet())
+        }*/
+        /*
+        //txtTime.onFocusChangeListener = View.OnFocusChangeListener{v, hasFocus -> if(!hasFocus)(TempData.Data.data["ActivityCreation"] as ArrayList<HashMap<String,View>>)[position]["txtTime"] = v else (v as EditText).setText(((TempData.Data.data["ActivityCreation"] as ArrayList<HashMap<String,View>>)[position]["txtTime"] as EditText).text)}// .setText(activities[position].name)}
         val txtDuration = rowView.findViewById<EditText>(R.id.editTextActivityDuration)
+        //TempData.Data.data.put("durationEdit",txtDuration)
+        */
         val colorPickerButton  = rowView.findViewById(R.id.colorPicker) as Button
         colorPickerButton.setOnClickListener{
             val cpd = AmbilWarnaDialog(context, activities[position].color!!.toArgb(), CPickerListener(colorPickerButton,position))
             cpd.show()
         }
+        colorPickerButton.setBackgroundColor(activities[position].color!!.toArgb())
 
         return rowView
     }
+
     fun addActivity(activity: com.example.a22_00.Model.Activity){
         activities.add(activity)
     }

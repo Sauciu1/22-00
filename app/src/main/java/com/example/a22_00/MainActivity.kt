@@ -13,12 +13,14 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.a22_00.DBHelper.DBHelper
+import com.example.a22_00.Model.Activity
 import com.example.a22_00.Model.MyListAdapter
 import com.example.a22_00.Model.Timetable
 import org.w3c.dom.Text
 import java.io.IOException
 import java.io.InputStream
 import java.lang.Exception
+import java.time.LocalTime
 
 
 class MainActivity : AppCompatActivity() {
@@ -62,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         /*val names = data.mapNotNull{it.name}.toTypedArray()
         val descriptions = data.mapNotNull { it.description+"\n${it.activities.size}" }.toTypedArray()*/
         val myListAdapter = MyListAdapter(this,data.toTypedArray())
-        listView.adapter = myListAdapter
+        //listView.adapter = myListAdapter
 
         /*listView.setOnItemClickListener(){adapterView, view, position, id ->
             val itemAtPos = adapterView.getItemAtPosition(position)
@@ -72,6 +74,12 @@ class MainActivity : AppCompatActivity() {
         //val db = DBHelper(this.applicationContext)
         //db.onUpgrade(db.writableDatabase,0,1)
         //db.insertTimetable(Timetable())
+        /*val t = Timetable("Lenkai","Kai tragedija Lenkiškoji pareina, reikia gintis!",arrayListOf<Activity>(Activity("Žudyk", LocalTime.now(),120,Color.valueOf(Color.RED)), Activity("Ilsėkis", LocalTime.NOON,120,Color.valueOf(Color.BLUE))))
+        db.insertTimetable(t)
+        data.forEach {
+            it.activities.forEach {
+            it
+        } }*/
 
 //        val textView = findViewById<TextView>(R.id.textView)
 //        val data = readFromAsset()

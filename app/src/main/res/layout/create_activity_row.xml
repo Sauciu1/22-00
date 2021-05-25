@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -21,7 +22,7 @@
             android:ems="10"
             android:enabled="true"
             android:hint="Activity name"
-            android:inputType="textPersonName" />
+            android:inputType="text" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,25 +31,26 @@
             android:padding="1dp"
             >
 
-            <EditText
+            <Button
                 android:id="@+id/editTextActivityTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:enabled="true"
-                android:hint="Begining time"
+                android:text="Set start time"/>
 
-                android:inputType="time" />
-
-            <EditText
+            <!--<NumberPicker
                 android:id="@+id/editTextActivityDuration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:enabled="true"
-                android:hint="Duration"
-
-                android:inputType="number" />
+                android:orientation="horizontal"
+                android:text="Set duration" />-->
+            <com.example.a22_00.Model.NumberPickerElement
+                android:id="@+id/editTextActivityDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
