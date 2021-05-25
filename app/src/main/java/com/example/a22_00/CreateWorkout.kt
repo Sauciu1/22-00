@@ -9,6 +9,7 @@ import android.widget.EditText
 import androidx.annotation.RequiresApi
 import com.example.a22_00.DBHelper.DBHelper
 import com.example.a22_00.Model.TempData
+import com.example.a22_00.Model.Timetable
 
 class CreateWorkout : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -37,9 +38,14 @@ class CreateWorkout : AppCompatActivity() {
             }
             val nameInput = inputWN.text.toString()
             val descInput = inputWD.text.toString()
-            TempData.Data.data.clear()
+            /*TempData.Data.data.clear()
             TempData.Data.data.put("Name",nameInput)
-            TempData.Data.data.put("Description",descInput)
+            TempData.Data.data.put("Description",descInput)*/
+            val tb = Timetable()
+            tb.name = nameInput
+            tb.description = descInput
+            TempData.Data.data.clear()
+            TempData.Data.data.put("Timetable",tb)
             val intent = Intent(this, CreateActivities::class.java)
             startActivity(intent)
         }

@@ -65,11 +65,11 @@ class MainActivity : AppCompatActivity() {
         val myListAdapter = MyListAdapter(this,data.toTypedArray())
         listView.adapter = myListAdapter
 
-        listView.setOnItemClickListener(){adapterView, view, position, id ->
+        /*listView.setOnItemClickListener(){adapterView, view, position, id ->
             val itemAtPos = adapterView.getItemAtPosition(position)
             val itemIdAtPos = adapterView.getItemIdAtPosition(position)
             Toast.makeText(this, "Click on item at $itemAtPos its item id $itemIdAtPos", Toast.LENGTH_LONG).show()
-        }
+        }*/
         //val db = DBHelper(this.applicationContext)
         //db.onUpgrade(db.writableDatabase,0,1)
         //db.insertTimetable(Timetable())
