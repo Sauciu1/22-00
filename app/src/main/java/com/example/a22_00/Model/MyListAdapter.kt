@@ -25,4 +25,5 @@ class MyListAdapter(private val context: Activity, private val timetables: Array
 
         return rowView
     }
+
 }
