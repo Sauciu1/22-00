@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         /*val names = data.mapNotNull{it.name}.toTypedArray()
         val descriptions = data.mapNotNull { it.description+"\n${it.activities.size}" }.toTypedArray()*/
         val myListAdapter = MyListAdapter(this,data.toTypedArray())
-        //listView.adapter = myListAdapter
+        listView.adapter = myListAdapter
 
 
 
@@ -89,11 +89,10 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Click on item at $itemAtPos its item id $itemIdAtPos", Toast.LENGTH_LONG).show()
         }*/
         //val db = DBHelper(this.applicationContext)
-        //db.onUpgrade(db.writableDatabase,0,1)
+        //db.onUpgrade(db.writableDatabase,1,2)
         //db.insertTimetable(Timetable())
-        /*val t = Timetable("Lenkai","Kai tragedija Lenkiškoji pareina, reikia gintis!",arrayListOf<Activity>(Activity("Žudyk", LocalTime.now(),120,Color.valueOf(Color.RED)), Activity("Ilsėkis", LocalTime.NOON,120,Color.valueOf(Color.BLUE))))
-        db.insertTimetable(t)
-        data.forEach {
+
+        /*data.forEach {
             it.activities.forEach {
             it
         } }*/

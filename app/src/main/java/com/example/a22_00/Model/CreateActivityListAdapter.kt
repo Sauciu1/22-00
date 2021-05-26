@@ -40,11 +40,14 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
         }
 
         //Button Duration
-        val numDuration = rowView.findViewById<NumberPickerElement>(R.id.editTextActivityDuration)
-        numDuration.min=0
-        numDuration.max=1440
+        val numDuration = rowView.findViewById<NumberPicker>(R.id.editTextActivityDuration)
+        numDuration.minValue=1
+        numDuration.maxValue=1440
         numDuration.setValue(activities[position].duration.toInt())
-        numDuration.handler.addListener(Consumer { activities[position].duration= (it as Int).toLong() })// { v, hasFocus -> if(!hasFocus)activities[position].duration = ((v as NumberPickerElement).getValue().toLong()) }
+        numDuration.setOnValueChangedListener { picker, oldVal, newVal ->  activities[position].duration = newVal.toLong()}
+        //numDuration.min=0
+        //numDuration.max=1440
+        //numDuration.handler.addListener(Consumer { activities[position].duration= (it as Int).toLong() })// { v, hasFocus -> if(!hasFocus)activities[position].duration = ((v as NumberPickerElement).getValue().toLong()) }
         /*numDuration.setOnClickListener {
             val numberPickerDialog = NumberPicker(context,AttributeSet())
         }*/

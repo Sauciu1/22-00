@@ -63,7 +63,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
     fun getAllTimetables(): ArrayList<Timetable> {
         val data = mutableMapOf<Int, Timetable>()
         val db = this.writableDatabase
-        var cursor  = db.rawQuery("SELECT * FROM $TABLE_TIMETABLE ",null)
+        var cursor  = db.rawQuery("SELECT * FROM $TABLE_TIMETABLE",null)
         if(cursor.moveToFirst()){
             do{
                  val timetable = Timetable()
@@ -74,7 +74,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         }
         cursor.close()
         val activities = mutableMapOf<Int, com.example.a22_00.Model.Activity>()
-        cursor  = db.rawQuery("SELECT * FROM $TABLE_ACTIVITIES ",null)
+        cursor  = db.rawQuery("SELECT * FROM $TABLE_ACTIVITIES ORDER BY $COL_BEGINING DESC",null)
         if(cursor.moveToFirst()) {
             do {
                 val activity = com.example.a22_00.Model.Activity()
