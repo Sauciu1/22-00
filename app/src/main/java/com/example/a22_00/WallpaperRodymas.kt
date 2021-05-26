@@ -204,6 +204,11 @@ class WallpaperRodymas : WallpaperService() {
                 var vienas=-500
                 var du=-500
                 var kuris=-1
+
+              //  var sudarimas = arrayOf(arrayOf)
+
+
+
                  timetables.forEach{
                     // println(it.name+":");
                      it.activities.forEach{

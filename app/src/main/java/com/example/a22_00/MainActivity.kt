@@ -71,16 +71,20 @@ class MainActivity : AppCompatActivity() {
 
 
         // informacija kodui, reikes pasalinti:
-       // db.onUpgrade(db.readableDatabase 10 10)
-
+        //db.onUpgrade(db.readableDatabase 10 10)
+/*
         val t = Timetable("Lenkai","Kai tragedija Lenkiškoji pareina, reikia gintis!",arrayListOf<Activity>(
-            Activity("Ant", LocalTime.of(18, 0), 120, Color.valueOf(Color.RED)),
-            Activity("Kalno", LocalTime.of(18, 9), 120, Color.valueOf(Color.GREEN)),
-            Activity("Murai", LocalTime.of(18, 12), 120, Color.valueOf(Color.YELLOW)),
-            Activity("Joja", LocalTime.of(19,0), 120, Color.valueOf(Color.BLUE)),
-            Activity("Lietuviai", LocalTime.of(21,0), 120, Color.valueOf(Color.RED))
+            Activity("Ant", LocalTime.of(12, 0), 120, Color.valueOf(Color.RED)),
+            Activity("Kalno", LocalTime.of(12, 9), 120, Color.valueOf(Color.GREEN)),
+            Activity("Murai", LocalTime.of(15, 12), 120, Color.valueOf(Color.YELLOW)),
+            Activity("Joja", LocalTime.of(13,0), 120, Color.valueOf(Color.BLUE)),
+            Activity("Lietuviai", LocalTime.of(14,30), 120, Color.valueOf(Color.RED))
         ))
         db.insertTimetable(t)
+ */
+
+
+
 
 
         /*listView.setOnItemClickListener(){adapterView, view, position, id ->
