@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#6C6C6C"
+    android:background="@drawable/gradient_drawable"
     tools:context=".CreateWorkout">
 
     <EditText
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="78dp"
         android:autofillHints="Input"
-        android:hint="Input te name of your timetable"
+        android:hint="Input the name of your timetable"
         android:inputType="text"
         android:layout_alignParentTop="true"/>
 
@@ -29,7 +29,7 @@
         android:id="@+id/OpenActivities"
         android:layout_width="143dp"
         android:layout_height="70dp"
-        android:backgroundTint="#171616"
+        android:background="?android:attr/selectableItemBackground"
         android:text="Next"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
@@ -38,7 +38,7 @@
         android:id="@+id/CancelWorkout"
         android:layout_width="143dp"
         android:layout_height="70dp"
-        android:backgroundTint="#171616"
+        android:background="?android:attr/selectableItemBackground"
         android:text="Cancel"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"

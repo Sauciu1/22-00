@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#6C6C6C"
+    android:background="@drawable/gradient_drawable"
     tools:context=".CreateActivities">
 
 
@@ -12,7 +12,7 @@
         android:id="@+id/cancel"
         android:layout_width="143dp"
         android:layout_height="70dp"
-        android:backgroundTint="#171616"
+        android:background="?android:attr/selectableItemBackground"
         android:text="@android:string/cancel" />
 
     <Button
@@ -23,23 +23,23 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="#171616"
+        android:background="?android:attr/selectableItemBackground"
         android:text="Finish" />
 
-    <Button
-        android:id="@+id/AddActivity"
-        android:layout_width="143dp"
-        android:layout_height="70dp"
-        android:backgroundTint="#171616"
-        android:text="Add Activity"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        />
+        <Button
+            android:id="@+id/AddActivity"
+            android:layout_width="143dp"
+            android:layout_height="70dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="Add Activity"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            />
 
     <ListView
         android:id="@+id/CreateActivitiesListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="75dp" />
+        android:layout_marginTop="70dp" />
 
 </RelativeLayout>
