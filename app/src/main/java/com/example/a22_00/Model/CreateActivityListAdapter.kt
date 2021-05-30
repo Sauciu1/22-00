@@ -56,6 +56,8 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
         val txtDuration = rowView.findViewById<EditText>(R.id.editTextActivityDuration)
         //TempData.Data.data.put("durationEdit",txtDuration)
         */
+
+        //Button Change color
         val colorPickerButton  = rowView.findViewById(R.id.colorPicker) as Button
         colorPickerButton.setOnClickListener{
             val cpd = AmbilWarnaDialog(context, activities[position].color!!.toArgb(), CPickerListener(colorPickerButton,position))
@@ -63,11 +65,20 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
         }
         colorPickerButton.setBackgroundColor(activities[position].color!!.toArgb())
 
+        //Button deleteThisActivity
+        val deleteActivityButton  = rowView.findViewById(R.id.deleteThisActivity) as Button
+        deleteActivityButton.setOnClickListener{
+            (it.parent.parent.parent.parent.parent as ListView).adapter = CreateActivityListAdapter(context,activities = activities)
+            //((it.parent.parent.parent.parent.parent as ListView).adapter as ArrayAdapter<com.example.a22_00.Model.Activity>).remove(activities[position])
+            activities.removeAt(position);
+        }
+
         return rowView
     }
 
     fun addActivity(activity: com.example.a22_00.Model.Activity){
         activities.add(activity)
+        add(activity)
     }
 }
 class CPickerListener: AmbilWarnaDialog.OnAmbilWarnaListener {

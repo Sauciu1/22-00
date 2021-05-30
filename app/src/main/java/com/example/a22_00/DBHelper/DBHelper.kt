@@ -72,6 +72,10 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
                 data[cursor.getInt(cursor.getColumnIndex(COL_ID))]=timetable
             }while (cursor.moveToNext())
         }
+        else{
+            cursor.close()
+            return arrayListOf(Timetable())
+        }
         cursor.close()
         val activities = mutableMapOf<Int, com.example.a22_00.Model.Activity>()
         cursor  = db.rawQuery("SELECT * FROM $TABLE_ACTIVITIES ORDER BY $COL_BEGINING DESC",null)
@@ -102,7 +106,9 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         }
         cursor.close()
         db.close()
+        if(data.count()>1)
        return ((data.toList() as ArrayList<Pair<Int,Timetable>>).map{ it.second }.toList() as ArrayList<Timetable>)
+        else return arrayListOf(Timetable())
     }
     @RequiresApi(Build.VERSION_CODES.O)
     fun insertTimetable(data:Timetable){

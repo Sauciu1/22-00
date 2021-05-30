@@ -23,7 +23,9 @@ class CreateWorkout : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
-        val names/*: ArrayList<String>*/ = DBHelper(this.applicationContext).getAllTimetables().map {it.name}
+        val db = DBHelper(this.applicationContext)
+        val names/*: ArrayList<String>*/ = db.getAllTimetables().map {it.name}
+        db.close()
         val savenext = findViewById<Button>(R.id.OpenActivities)
         val inputWN = findViewById<EditText>(R.id.InputOfWN)
         val inputWD = findViewById<EditText>(R.id.InputOfWD)

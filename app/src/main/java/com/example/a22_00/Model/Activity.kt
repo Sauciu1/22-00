@@ -15,7 +15,8 @@ class Activity {
     @RequiresApi(Build.VERSION_CODES.O)
     var begining: LocalTime = LocalTime.now()
     var duration: Long = 60
-    var color: Color? = null
+    @RequiresApi(Build.VERSION_CODES.O)
+    var color: Color? = Color.valueOf(0.5f,0.5f,0.5f)
 
     constructor(){}
     constructor( name: String,begining: LocalTime, durationInMinutes: Long, color: Color){
