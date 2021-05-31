@@ -200,36 +200,14 @@ class WallpaperRodymas : WallpaperService() {
                 //minutes till start
 
                 val data = db.getAllTimetables()
-                var nulis=-500
-                var vienas=-500
-                var du=-500
                 var kuris=-1
                  timetables.forEach{
-                    // println(it.name+":");
+                    println(it.name+":");
                      it.activities.forEach{
-                         //println("   "+it.name+"||||"+it.begining.toString()+"||||"+it.minutesTillStart()+"||||"+it.duration+"||||"+it.color)
+                         println("   "+it.name+"||||"+it.begining.toString()+"||||"+it.minutesTillStart()+"||||"+it.duration+"||||"+it.color)
 
                          if(it.minutesTillStart() + it.duration >-30 && it.minutesTillStart() <360){
-                            /// reikia pasirinkti kokiu budu rinktis ka rodyti
-/*
-                            var kuris=0
-                             if(nulis <= it.minutesTillStart()){
-                                 nulis = (it.minutesTillStart() + it.duration).toInt()
-                             }
-                             else{
-                                 if(vienas <= it.minutesTillStart()){
-                                     vienas = (it.minutesTillStart() + it.duration).toInt()
-                                     kuris=1
-                                 }
-                                 else {
-                                     du = (it.minutesTillStart() + it.duration).toInt()
-                                     kuris=2
-                                    }
-                                 }
-                             */
 
-
-                             //println("vertes " + nulis.toString() + " | " + vienas.toString()+ " | " + du.toString())
                              kuris=(kuris+1)%3
                              PieskKvadrata(kuris, (it.minutesTillStart() +30).toInt(), it.duration.toInt(),it.name, it.color!!)
                              }

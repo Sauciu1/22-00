@@ -8,11 +8,8 @@ import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.a22_00.Model.Timetable
-import java.security.AccessControlContext
-import java.security.Timestamp
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.util.jar.Attributes
 
 class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DATABASE_VER) {
     companion object{
@@ -47,7 +44,6 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         db!!.execSQL(CREATE_TABLE_QUERY);
 
         CREATE_TABLE_QUERY = ("CREATE TABLE IF NOT EXISTS $TABLE_ACTIVITIES_TO_TIMETABLES ($COL_TIMETABLE_ID INTEGER,$COL_ACTIVITY_ID INTEGER, FOREIGN KEY('$COL_TIMETABLE_ID') REFERENCES '$TABLE_TIMETABLE'('$COL_ID'),  FOREIGN KEY('$COL_ACTIVITY_ID') REFERENCES '$TABLE_ACTIVITIES'('$COL_ID') ) ")
-        //FOREIGN KEY("AId") REFERENCES "monthly-2021"("Draudėjokodas(code)"),
         //	FOREIGN KEY("BId") REFERENCES "b2"("ID")
         db!!.execSQL(CREATE_TABLE_QUERY);
     }
@@ -106,8 +102,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         }
         cursor.close()
         db.close()
-        if(data.count()>1)
-       return ((data.toList() as ArrayList<Pair<Int,Timetable>>).map{ it.second }.toList() as ArrayList<Timetable>)
+        if(data.count()>1) return ((data.toList() as ArrayList<Pair<Int,Timetable>>).map{ it.second }.toList() as ArrayList<Timetable>)
         else return arrayListOf(Timetable())
     }
     @RequiresApi(Build.VERSION_CODES.O)
@@ -120,6 +115,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         values.put(COL_NAME,data.name)
         values.put(COL_DESCRIPTION,data.description)
         val timetableID = db.insert(TABLE_TIMETABLE,null,values)
+        println(data.name+" ikisinejam i DB")
         values.clear()
         data.activities.forEach({
             //values.put(COL_ID,null)
@@ -128,10 +124,12 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
             values.put(COL_DURATION,it.duration)
             values.put(COL_COLOR, "#" + Integer.toHexString(it.color!!.toArgb()).substring(2))
             val activityID=db.insert(TABLE_ACTIVITIES,null,values)
+            println("ikiSAU ${it.name}(${it.color}) i DB")
             values.clear()
             values.put(COL_TIMETABLE_ID,timetableID)
             values.put(COL_ACTIVITY_ID,activityID)
             db.insert(TABLE_ACTIVITIES_TO_TIMETABLES,null,values)
+            println("ikiSAU ${it.name} ir jo tvarkarascio susiejima i DB")
             values.clear()
         })
         db.close()
