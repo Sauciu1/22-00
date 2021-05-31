@@ -22,24 +22,27 @@ import java.time.LocalTime
 class CreateActivities : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
+        val db = DBHelper(applicationContext)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_activities)
         //val veiklos:ArrayList<com.example.a22_00.Model.Activity> =ArrayList<com.example.a22_00.Model.Activity>()
-        (TempData.Data.data["Timetable"] as Timetable).activities = ArrayList<com.example.a22_00.Model.Activity>(
-            arrayListOf(Activity("Activity 1", LocalTime.now(),60, Color.valueOf(Color.BLUE)),Activity("Activity 2", LocalTime.now(),60, Color.valueOf(Color.BLUE))))
+        //(TempData.Data.data["Timetable"] as Timetable).activities = ArrayList<com.example.a22_00.Model.Activity>(
+          //  arrayListOf(Activity("Activity 1", LocalTime.now(),60, Color.valueOf(Color.BLUE)),Activity("Activity 2", LocalTime.now(),60, Color.valueOf(Color.BLUE))))
+        (TempData.Data.data["Timetable"] as Timetable).activities = ArrayList<com.example.a22_00.Model.Activity>()
 
-        TempData.Data.data.put("ActivityCreation",ArrayList<HashMap<String,View>>())
+        //TempData.Data.data.put("ActivityCreation",ArrayList<HashMap<String,View>>())
+        //variantas
 
-        val adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<com.example.a22_00.Model.Activity>)
+        //var adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<com.example.a22_00.Model.Activity>)
         val listView = findViewById<ListView>(R.id.CreateActivitiesListView)
-        listView.adapter = adapter
+        //listView.adapter = adapter
+        listView.adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<com.example.a22_00.Model.Activity>)
         val addActivity = findViewById<Button>(R.id.AddActivity)
         addActivity.setOnClickListener {
-            //((TempData.Data.data["Timetable"] as Timetable).activities as ArrayList).add(com.example.a22_00.Model.Activity())
-            adapter.addActivity(com.example.a22_00.Model.Activity())
-            adapter.add(null);
-            print("the 'ADD ACTIVITY' button was clicked, hence, there are now ${(TempData.Data.data["Timetable"] as Timetable).activities.size}(${adapter.count}) activities for editing.\n")
-            adapter.notifyDataSetChanged()
+            ((TempData.Data.data["Timetable"] as Timetable).activities as ArrayList).add(com.example.a22_00.Model.Activity())
+            //listView.adapter = null
+            listView.adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<com.example.a22_00.Model.Activity>)
+
         }
         val done = findViewById<Button>(R.id.Done)
         done.setOnClickListener {
@@ -48,7 +51,10 @@ class CreateActivities : AppCompatActivity() {
                 //error "Please add activities"
                 return@setOnClickListener
             }
-            DBHelper(this.applicationContext).insertTimetable(TempData.Data.data["Timetable"] as Timetable)
+            val t = TempData.Data.data["Timetable"] as Timetable
+            println("${t.name}, ${t.description}, ${t.activities.count()}")
+            db.insertTimetable(t)
+            db.close()
             startActivity(intent)
         }
     }

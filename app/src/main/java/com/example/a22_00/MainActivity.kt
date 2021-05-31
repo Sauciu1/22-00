@@ -48,43 +48,41 @@ class MainActivity : AppCompatActivity() {
         )
 
 
-        openWallpaper.setOnClickListener {
-            startActivity(intent)
-        }
+
         openCreateW.setOnClickListener {
             val prButton = Intent(this, CreateWorkout::class.java)
+
             startActivity(prButton)
         }
 
 
         val db = DBHelper(this.applicationContext)
-        db.insertTimetable(Timetable())
+        //db.insertTimetable(Timetable())
         val data = db.getAllTimetables()
+        db.close()
         // Čia reikia db data pversi į array ir tada galima sitas kodas veiks
         val listView = findViewById<ListView>(R.id.listView)  //formos elementas kuriame sis sarasas yra sukuriamas
         /*val names = data.mapNotNull{it.name}.toTypedArray()
         val descriptions = data.mapNotNull { it.description+"\n${it.activities.size}" }.toTypedArray()*/
-        val myListAdapter = MyListAdapter(this,data.toTypedArray())
-        listView.adapter = myListAdapter
+        listView.adapter = MyListAdapter(this,data.toTypedArray())
 
 
-
+        openWallpaper.setOnClickListener {
+            //listView.adapter = MyListAdapter(this,db.getAllTimetables().toTypedArray())
+            startActivity(intent)
+        }
 
         // informacija kodui, reikes pasalinti:
-        //db.onUpgrade(db.readableDatabase 10 10)
-/*
+        //db.onUpgrade(db.readableDatabase, 11, 12)
+
         val t = Timetable("Lenkai","Kai tragedija Lenkiškoji pareina, reikia gintis!",arrayListOf<Activity>(
-            Activity("Ant", LocalTime.of(12, 0), 120, Color.valueOf(Color.RED)),
-            Activity("Kalno", LocalTime.of(12, 9), 120, Color.valueOf(Color.GREEN)),
-            Activity("Murai", LocalTime.of(15, 12), 120, Color.valueOf(Color.YELLOW)),
-            Activity("Joja", LocalTime.of(13,0), 120, Color.valueOf(Color.BLUE)),
-            Activity("Lietuviai", LocalTime.of(14,30), 120, Color.valueOf(Color.RED))
+            Activity("Ant", LocalTime.of(18, 0), 120, Color.valueOf(Color.RED)),
+            Activity("Kalno", LocalTime.of(18, 9), 120, Color.valueOf(Color.GREEN)),
+            Activity("Murai", LocalTime.of(18, 12), 120, Color.valueOf(Color.YELLOW)),
+            Activity("Joja", LocalTime.of(19,0), 120, Color.valueOf(Color.BLUE)),
+            Activity("Lietuviai", LocalTime.of(21,0), 120, Color.valueOf(Color.RED))
         ))
-        db.insertTimetable(t)
- */
-
-
-
+        //db.insertTimetable(t)
 
 
         /*listView.setOnItemClickListener(){adapterView, view, position, id ->
