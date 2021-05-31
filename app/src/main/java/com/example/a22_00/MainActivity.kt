@@ -34,9 +34,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        /*val yra =findViewById<Button>(R.id.mygtukas)
-        val myTxt = findViewById<TextView>(R.id.myTextView)*/
-        //db = DBHelper(this)
         val openWallpaper =findViewById<Button>(R.id.OpenWallpaper)
         val openCreateW =findViewById<Button>(R.id.OpenCWallpaper)
 
@@ -49,25 +46,32 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        openCreateW.setOnClickListener {
-            val prButton = Intent(this, CreateWorkout::class.java)
-
-            startActivity(prButton)
-        }
 
 
-        val db = DBHelper(this.applicationContext)
-        //db.insertTimetable(Timetable())
+
+        val db = DBHelper(applicationContext)
+
+        val t = Timetable("Lenkai","Kai tragedija Lenkiškoji pareina, reikia gintis!",arrayListOf<Activity>(
+            Activity("Ant", LocalTime.of(15, 0), 120, Color.valueOf(Color.RED)),
+            Activity("Kalno", LocalTime.of(11, 9), 120, Color.valueOf(Color.GREEN)),
+            Activity("Murai", LocalTime.of(18, 12), 120, Color.valueOf(Color.YELLOW)),
+            Activity("Joja", LocalTime.of(19,0), 120, Color.valueOf(Color.BLUE)),
+            Activity("Lietuviai", LocalTime.of(21,0), 120, Color.valueOf(Color.RED))
+        ))
+        db.insertTimetable(t)
+
         val data = db.getAllTimetables()
-        db.close()
+
         // Čia reikia db data pversi į array ir tada galima sitas kodas veiks
         val listView = findViewById<ListView>(R.id.listView)  //formos elementas kuriame sis sarasas yra sukuriamas
-        /*val names = data.mapNotNull{it.name}.toTypedArray()
-        val descriptions = data.mapNotNull { it.description+"\n${it.activities.size}" }.toTypedArray()*/
         listView.adapter = MyListAdapter(this,data.toTypedArray())
-
-
+        openCreateW.setOnClickListener {
+            db.close()
+            val prButton = Intent(this, CreateWorkout::class.java)
+            startActivity(prButton)
+        }
         openWallpaper.setOnClickListener {
+            db.close()
             //listView.adapter = MyListAdapter(this,db.getAllTimetables().toTypedArray())
             startActivity(intent)
         }
@@ -75,32 +79,8 @@ class MainActivity : AppCompatActivity() {
         // informacija kodui, reikes pasalinti:
         //db.onUpgrade(db.readableDatabase, 11, 12)
 
-        val t = Timetable("Lenkai","Kai tragedija Lenkiškoji pareina, reikia gintis!",arrayListOf<Activity>(
-            Activity("Ant", LocalTime.of(18, 0), 120, Color.valueOf(Color.RED)),
-            Activity("Kalno", LocalTime.of(18, 9), 120, Color.valueOf(Color.GREEN)),
-            Activity("Murai", LocalTime.of(18, 12), 120, Color.valueOf(Color.YELLOW)),
-            Activity("Joja", LocalTime.of(19,0), 120, Color.valueOf(Color.BLUE)),
-            Activity("Lietuviai", LocalTime.of(21,0), 120, Color.valueOf(Color.RED))
-        ))
-        //db.insertTimetable(t)
 
 
-        /*listView.setOnItemClickListener(){adapterView, view, position, id ->
-            val itemAtPos = adapterView.getItemAtPosition(position)
-            val itemIdAtPos = adapterView.getItemIdAtPosition(position)
-            Toast.makeText(this, "Click on item at $itemAtPos its item id $itemIdAtPos", Toast.LENGTH_LONG).show()
-        }*/
-        //val db = DBHelper(this.applicationContext)
-        //db.onUpgrade(db.writableDatabase,1,2)
-        //db.insertTimetable(Timetable())
-
-        /*data.forEach {
-            it.activities.forEach {
-            it
-        } }*/
-
-//        val textView = findViewById<TextView>(R.id.textView)
-//        val data = readFromAsset()
-//        textView.setText(data)
     }
+    //on
 }
