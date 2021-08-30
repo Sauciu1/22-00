@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.a22_00.DBHelper.DBHelper
 import com.example.a22_00.Model.Activity
 import com.example.a22_00.Model.MyListAdapter
+import com.example.a22_00.Model.TempData
 import com.example.a22_00.Model.Timetable
 import org.w3c.dom.Text
 import java.io.IOException
@@ -51,13 +52,13 @@ class MainActivity : AppCompatActivity() {
 
         val db = DBHelper(applicationContext)
 
-        val t = Timetable("Lenkai","Kai tragedija Lenkiškoji pareina, reikia gintis!",arrayListOf<Activity>(
-            Activity("Ant", LocalTime.of(15, 0), 120, Color.valueOf(Color.RED)),
-            Activity("Kalno", LocalTime.of(11, 9), 120, Color.valueOf(Color.GREEN)),
-            Activity("Murai", LocalTime.of(18, 12), 120, Color.valueOf(Color.YELLOW)),
-            Activity("Joja", LocalTime.of(19,0), 120, Color.valueOf(Color.BLUE)),
-            Activity("Lietuviai", LocalTime.of(21,0), 120, Color.valueOf(Color.RED))
-        ))
+//        val t = Timetable("Lenkai","Kai tragedija Lenkiškoji pareina, reikia gintis!",arrayListOf<Activity>(
+//            Activity("Ant", LocalTime.of(15, 0), 120, Color.valueOf(Color.RED)),
+//            Activity("Kalno", LocalTime.of(11, 9), 120, Color.valueOf(Color.GREEN)),
+//            Activity("Murai", LocalTime.of(18, 12), 120, Color.valueOf(Color.YELLOW)),
+//            Activity("Joja", LocalTime.of(19,0), 120, Color.valueOf(Color.BLUE)),
+//            Activity("Lietuviai", LocalTime.of(21,0), 120, Color.valueOf(Color.RED))
+//        ))
         //db.insertTimetable(t)
 
         val data = db.getAllTimetables()
@@ -67,7 +68,12 @@ class MainActivity : AppCompatActivity() {
         listView.adapter = MyListAdapter(this,data.toTypedArray())
         openCreateW.setOnClickListener {
             db.close()
-            val prButton = Intent(this, CreateWorkout::class.java)
+            val prButton = Intent(this, CreateActivities::class.java)
+            val tb = Timetable()
+            tb.name = "kazkas"
+            tb.description = "aaklhsdlkfjahlsdfjhl"
+            TempData.Data.data.clear()
+            TempData.Data.data.put("Timetable",tb)
             startActivity(prButton)
         }
         openWallpaper.setOnClickListener {
