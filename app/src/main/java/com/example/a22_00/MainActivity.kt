@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             Activity("Joja", LocalTime.of(19,0), 120, Color.valueOf(Color.BLUE)),
             Activity("Lietuviai", LocalTime.of(21,0), 120, Color.valueOf(Color.RED))
         ))
-        db.insertTimetable(t)
+        //db.insertTimetable(t)
 
         val data = db.getAllTimetables()
 
@@ -82,5 +82,14 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    //on
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onResume() {
+        super.onResume()
+        val db = DBHelper(applicationContext)
+        val data = db.getAllTimetables()
+        val listView = findViewById<ListView>(R.id.listView)  //formos elementas kuriame sis sarasas yra sukuriamas
+        listView.adapter = MyListAdapter(this,data.toTypedArray())
+        db.close()
+    }
 }

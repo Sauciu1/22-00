@@ -57,7 +57,14 @@ class CreateActivities : AppCompatActivity() {
             db.close()
             startActivity(intent)
         }
-    }
+        val cancel = findViewById<Button>(R.id.cancel)
+        cancel.setOnClickListener {
+            //val intent = this.parentActivityIntent//Intent(this, CreateWorkout::class.java)
+            db.close()
+            this.finish()
+            //startActivity(intent)
+        }
+        }
     /*override fun onPause() {
 
         // hide the keyboard in order to avoid getTextBeforeCursor on inactive InputConnection

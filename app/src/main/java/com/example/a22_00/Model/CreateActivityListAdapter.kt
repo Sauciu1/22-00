@@ -68,9 +68,12 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
         //Button deleteThisActivity
         val deleteActivityButton  = rowView.findViewById(R.id.deleteThisActivity) as Button
         deleteActivityButton.setOnClickListener{
+            txtName.onFocusChangeListener.onFocusChange(txtName,txtName.hasFocus())
+            txtName.onFocusChangeListener = null
+            activities.removeAt(position);
             (it.parent.parent.parent.parent.parent as ListView).adapter = CreateActivityListAdapter(context,activities = activities)
             //((it.parent.parent.parent.parent.parent as ListView).adapter as ArrayAdapter<com.example.a22_00.Model.Activity>).remove(activities[position])
-            activities.removeAt(position);
+            //activities.removeAt(position);
         }
 
         return rowView
