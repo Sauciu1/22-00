@@ -75,22 +75,22 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
             if(isChecked)savaite[2]=1
             else savaite[2]=0
         }
-        var Diena4 = rowView.findViewById<ToggleButton>(R.id.WeekDay1)
+        var Diena4 = rowView.findViewById<ToggleButton>(R.id.WeekDay4)
         Diena4.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked)savaite[3]=1
             else savaite[3]=0
         }
-        var Diena5 = rowView.findViewById<ToggleButton>(R.id.WeekDay1)
+        var Diena5 = rowView.findViewById<ToggleButton>(R.id.WeekDay5)
         Diena5.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked)savaite[4]=1
             else savaite[4]=0
         }
-        var Diena6 = rowView.findViewById<ToggleButton>(R.id.WeekDay1)
+        var Diena6 = rowView.findViewById<ToggleButton>(R.id.WeekDay6)
         Diena6.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked)savaite[5]=1
             else savaite[5]=0
         }
-        var Diena7 = rowView.findViewById<ToggleButton>(R.id.WeekDay1)
+        var Diena7 = rowView.findViewById<ToggleButton>(R.id.WeekDay7)
         Diena7.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked)savaite[6]=1
             else savaite[6]=0
