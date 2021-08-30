@@ -17,12 +17,40 @@
 
         <EditText
             android:id="@+id/editTextActivityName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="83dp"
             android:ems="10"
             android:enabled="true"
             android:hint="Activity name"
             android:inputType="text" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:id="@+id/weekdays">
+
+            <ToggleButton
+                android:id="@+id/WeekDay1"
+                android:layout_width="69dp"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:textOff="M"
+                android:textOn="M" />
+
+
+            <ToggleButton
+                android:id="@+id/WeekDay2"
+                android:layout_width="69dp"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:textOff="T"
+                android:textOn="T" />
+        </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,13 +66,14 @@
                 android:enabled="true"
                 android:paddingRight="10dp"
                 >
+
                 <Button
                     android:id="@+id/editTextActivityTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:enabled="true"
-                    android:text="Set start time"/>
+                    android:text="Set start time" />
 
                 <Button
                     android:id="@+id/colorPicker"

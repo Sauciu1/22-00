@@ -26,6 +26,7 @@
         android:layout_alignParentTop="true"
         android:background="?android:attr/selectableItemBackground"
         android:text="Create Wallpaper" />
+
     <ListView
         android:layout_height="match_parent"
         android:layout_width="match_parent"
