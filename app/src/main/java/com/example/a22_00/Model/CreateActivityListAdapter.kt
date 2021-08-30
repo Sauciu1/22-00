@@ -57,6 +57,47 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
         //TempData.Data.data.put("durationEdit",txtDuration)
         */
 
+
+        var savaite = byteArrayOf(0,0,0,0,0,0,0)
+
+        var Diena1 = rowView.findViewById<ToggleButton>(R.id.WeekDay1)
+        Diena1.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)savaite[0]=1
+            else savaite[0]=0
+        }
+        var Diena2 = rowView.findViewById<ToggleButton>(R.id.WeekDay2)
+        Diena2.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)savaite[1]=1
+            else savaite[1]=0
+        }
+        var Diena3 = rowView.findViewById<ToggleButton>(R.id.WeekDay3)
+        Diena3.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)savaite[2]=1
+            else savaite[2]=0
+        }
+        var Diena4 = rowView.findViewById<ToggleButton>(R.id.WeekDay1)
+        Diena4.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)savaite[3]=1
+            else savaite[3]=0
+        }
+        var Diena5 = rowView.findViewById<ToggleButton>(R.id.WeekDay1)
+        Diena5.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)savaite[4]=1
+            else savaite[4]=0
+        }
+        var Diena6 = rowView.findViewById<ToggleButton>(R.id.WeekDay1)
+        Diena6.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)savaite[5]=1
+            else savaite[5]=0
+        }
+        var Diena7 = rowView.findViewById<ToggleButton>(R.id.WeekDay1)
+        Diena7.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)savaite[6]=1
+            else savaite[6]=0
+        }
+
+
+
         //Button Change color
         val colorPickerButton  = rowView.findViewById(R.id.colorPicker) as Button
         colorPickerButton.setOnClickListener{
