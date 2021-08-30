@@ -28,7 +28,7 @@ class CreateActivities : AppCompatActivity() {
         //val veiklos:ArrayList<com.example.a22_00.Model.Activity> =ArrayList<com.example.a22_00.Model.Activity>()
         //(TempData.Data.data["Timetable"] as Timetable).activities = ArrayList<com.example.a22_00.Model.Activity>(
           //  arrayListOf(Activity("Activity 1", LocalTime.now(),60, Color.valueOf(Color.BLUE)),Activity("Activity 2", LocalTime.now(),60, Color.valueOf(Color.BLUE))))
-        (TempData.Data.data["Timetable"] as Timetable).activities = ArrayList<com.example.a22_00.Model.Activity>()
+        (TempData.Data.data["Timetable"] as Timetable).activities = ArrayList<Activity>()
 
         //TempData.Data.data.put("ActivityCreation",ArrayList<HashMap<String,View>>())
         //variantas
@@ -36,14 +36,17 @@ class CreateActivities : AppCompatActivity() {
         //var adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<com.example.a22_00.Model.Activity>)
         val listView = findViewById<ListView>(R.id.CreateActivitiesListView)
         //listView.adapter = adapter
-        listView.adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<com.example.a22_00.Model.Activity>)
+        listView.adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<Activity>)
+
         val addActivity = findViewById<Button>(R.id.AddActivity)
         addActivity.setOnClickListener {
-            ((TempData.Data.data["Timetable"] as Timetable).activities as ArrayList).add(com.example.a22_00.Model.Activity())
+            ((TempData.Data.data["Timetable"] as Timetable).activities as ArrayList).add(Activity())
             //listView.adapter = null
-            listView.adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<com.example.a22_00.Model.Activity>)
-
+            listView.adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<Activity>)
         }
+
+        addActivity.performClick();
+
         val done = findViewById<Button>(R.id.Done)
         done.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
