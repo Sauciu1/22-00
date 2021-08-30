@@ -17,7 +17,7 @@
 
         <EditText
             android:id="@+id/editTextActivityName"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="83dp"
             android:ems="10"
             android:enabled="true"
@@ -26,7 +26,7 @@
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1"
@@ -34,20 +34,53 @@
 
             <ToggleButton
                 android:id="@+id/WeekDay1"
-                android:layout_width="69dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:textOff="M"
-                android:textOn="M" />
-
-
+                android:textOff="Mo"
+                android:textOn="Mo" />
             <ToggleButton
                 android:id="@+id/WeekDay2"
-                android:layout_width="69dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:textOff="T"
-                android:textOn="T" />
+                android:textOff="Tu"
+                android:textOn="Tu" />
+            <ToggleButton
+                android:id="@+id/WeekDay3"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textOff="We"
+                android:textOn="We" />
+            <ToggleButton
+                android:id="@+id/WeekDay4"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textOff="Th"
+                android:textOn="Th" />
+            <ToggleButton
+                android:id="@+id/WeekDay5"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textOff="Fr"
+                android:textOn="Fr" />
+            <ToggleButton
+                android:id="@+id/WeekDay6"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textOff="Sa"
+                android:textOn="Sa" />
+            <ToggleButton
+                android:id="@+id/WeekDay7"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textOff="Su"
+                android:textOn="Su" />
         </LinearLayout>
 
 
