@@ -7,34 +7,28 @@
     android:background="@drawable/gradient_drawable"
     tools:context=".CreateActivities">
 
-
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:id="@+id/cntactivity">
     <Button
         android:id="@+id/cancel"
-        android:layout_width="143dp"
         android:layout_height="70dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:background="?android:attr/selectableItemBackground"
         android:text="@android:string/cancel" />
 
     <Button
         android:id="@+id/Done"
-        android:layout_width="143dp"
         android:layout_height="70dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:background="?android:attr/selectableItemBackground"
         android:text="Finish" />
-
-        <Button
-            android:id="@+id/AddActivity"
-            android:layout_width="143dp"
-            android:layout_height="70dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="Add Activity"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/CreateActivitiesListView"

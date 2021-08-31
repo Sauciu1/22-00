@@ -46,13 +46,10 @@ class CreateActivities : AppCompatActivity() {
         //listView.adapter = adapter
         listView.adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<Activity>)
 
-        val addActivity = findViewById<Button>(R.id.AddActivity)
-        addActivity.setOnClickListener {
-            ((TempData.Data.data["Timetable"] as Timetable).activities as ArrayList).add(Activity())
-            //listView.adapter = null
-            listView.adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<Activity>)
-        }
-        addActivity.performClick();
+
+        ((TempData.Data.data["Timetable"] as Timetable).activities as ArrayList).add(Activity())
+        listView.adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<Activity>)
+
 
 
 

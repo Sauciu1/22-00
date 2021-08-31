@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
 
         val db = DBHelper(applicationContext)
-
+//
 //        val t = Timetable("Lenkai","Kai tragedija Lenkiškoji pareina, reikia gintis!",arrayListOf<Activity>(
 //            Activity("Ant", LocalTime.of(15, 0), 120, Color.valueOf(Color.RED)),
 //            Activity("Kalno", LocalTime.of(11, 9), 120, Color.valueOf(Color.GREEN)),
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 //            Activity("Joja", LocalTime.of(19,0), 120, Color.valueOf(Color.BLUE)),
 //            Activity("Lietuviai", LocalTime.of(21,0), 120, Color.valueOf(Color.RED))
 //        ))
-        //db.insertTimetable(t)
+//        db.insertTimetable(t)
 
         val data = db.getAllTimetables()
 
