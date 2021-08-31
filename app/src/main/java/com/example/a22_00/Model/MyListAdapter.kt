@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.example.a22_00.DBHelper.DBHelper
 import com.example.a22_00.R
 
 class MyListAdapter(private val context: Activity, private val activities: Array<com.example.a22_00.Model.Activity>)
@@ -22,6 +23,13 @@ class MyListAdapter(private val context: Activity, private val activities: Array
         subtitleText.text = "${activities[position].begining} (${activities[position].duration} mins)"
         activityContainer.setBackgroundColor(activities[position].color!!.toArgb())
 
+        val btnDelete = rowView.findViewById<Button>(R.id.Naikinti)
+        btnDelete.setOnClickListener({
+            val db = DBHelper(this.context)
+            db.deleteActivity(activities[position])
+            db.close()
+            this.context.recreate()
+        })
 
         return rowView
     }

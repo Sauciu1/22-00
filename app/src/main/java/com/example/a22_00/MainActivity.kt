@@ -51,6 +51,10 @@ class MainActivity : AppCompatActivity() {
 
 
         val db = DBHelper(applicationContext)
+       // db.onUpgrade(db.writableDatabase,2,3)
+        //val a = Activity()
+        //a.name = "sdsfsdf"
+        //db.insertActivity(a)
 //
 //        val t = Timetable("Lenkai","Kai tragedija Lenkiškoji pareina, reikia gintis!",arrayListOf<Activity>(
 //            Activity("Ant", LocalTime.of(15, 0), 120, Color.valueOf(Color.RED)),
