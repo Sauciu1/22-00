@@ -47,7 +47,7 @@ class Activity {
 
             savaite/=2
         }
-        //return week.toLong()
+        return dayOfTheWeek.toLong()
         var grazink = (LocalTime.now().until(begining, ChronoUnit.MINUTES) + difference*24*60)
 
 

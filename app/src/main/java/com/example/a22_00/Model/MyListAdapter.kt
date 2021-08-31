@@ -37,7 +37,7 @@ class MyListAdapter(private val context: Activity, private val activities: Array
 
 
 
-        subtitleText.text = "${activities[position].begining} (${activities[position].duration} mins) \n ${teksto} \n" + " ${activities[position].minutesTillStart()}"
+        subtitleText.text = "${activities[position].begining} (${activities[position].duration} mins) \n ${teksto}" //+ " ${activities[position].minutesTillStart()}"
 
         activityContainer.setBackgroundColor(activities[position].color!!.toArgb())
 

@@ -11,7 +11,9 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import com.example.a22_00.R
 import yuku.ambilwarna.AmbilWarnaDialog
+import java.text.SimpleDateFormat
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.function.Consumer
 
 //class CreateActivityListAdapter(private val context: Activity, private val activities: Array<com.example.a22_00.Model.Activity>): ArrayAdapter<String>(context, R.layout.row, activities.mapNotNull { it.name }.toTypedArray()) {
@@ -33,7 +35,9 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
 
         //Button setTime
         val btnTime = rowView.findViewById<Button>(R.id.editTextActivityTime)
-        btnTime.setText(activities[position].begining.toString())
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        btnTime.setText((LocalTime.now().format(formatter)).toString())
+
         btnTime.setOnClickListener {
             val timePickerDialog = TimePickerDialog(context, TimePickerDialog.OnTimeSetListener({view,hourOfDay,minute ->activities[position].begining = LocalTime.of(hourOfDay, minute); btnTime.setText(activities[position].begining.toString())}),activities[position].begining.hour,activities[position].begining.second,true)
             timePickerDialog.show()
@@ -63,7 +67,7 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
         var Diena1 = rowView.findViewById<ToggleButton>(R.id.WeekDay1)
         Diena1.setOnCheckedChangeListener { buttonView, isChecked ->
             savaite[0]=isChecked
-
+            saveDOW(savaite,position)
         }
         var Diena2 = rowView.findViewById<ToggleButton>(R.id.WeekDay2)
         Diena2.setOnCheckedChangeListener { buttonView, isChecked ->
