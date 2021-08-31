@@ -8,6 +8,7 @@ import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalUnit
+import java.util.*
 
 class Activity {
     var  id: Int = Int.MAX_VALUE
@@ -31,6 +32,9 @@ class Activity {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun minutesTillStart(): Long{
-        return LocalTime.now().until(begining, ChronoUnit.MINUTES)
+        val week = Calendar.getInstance(TimeZone.getDefault()).get(Calendar.DAY_OF_WEEK)-1
+        val minutes = LocalTime.now().until(begining, ChronoUnit.MINUTES)
+        dayOfTheWeek.toInt()
+
     }
 }
