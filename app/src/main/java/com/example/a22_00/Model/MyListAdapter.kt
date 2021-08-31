@@ -13,12 +13,14 @@ class MyListAdapter(private val context: Activity, private val activities: Array
         val inflater = context.layoutInflater
         val rowView = inflater.inflate(R.layout.activity_row, null, true)
 
+        val titleText = rowView.findViewById(R.id.activityname) as TextView
+        val subtitleText = rowView.findViewById(R.id.activitydescription) as TextView
+        val activityContainer = rowView.findViewById(R.id.cntactivity) as LinearLayout
 
+        titleText.text = activities[position].name
 
-        //val listView = rowView.findViewById(R.id.activitylist) as ListView
-
-        //val myListAdapter = MyListAdapter(this,data.toTypedArray())
-        //listView.adapter = ActivityListAdapter(context, timetables[position].activities.toTypedArray())
+        subtitleText.text = "${activities[position].begining} (${activities[position].duration} mins)"
+        activityContainer.setBackgroundColor(activities[position].color!!.toArgb())
 
 
         return rowView
