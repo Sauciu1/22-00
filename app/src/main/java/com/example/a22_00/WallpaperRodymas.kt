@@ -27,7 +27,7 @@ class WallpaperRodymas : WallpaperService() {
         var pradeta = 1
        @RequiresApi(Build.VERSION_CODES.O)
        override fun onTouchEvent(event: MotionEvent?) {
-           val timetables = db.getAllTimetables()
+           val timetables = db.getAllActivities()
            var r = 100
            var b = 100
            var g = 100
@@ -199,16 +199,15 @@ class WallpaperRodymas : WallpaperService() {
 
                 //minutes till start
 
-                val data = db.getAllTimetables()
+                val data = db.getAllActivities()
                 var kuris=-1
 
               //  var sudarimas = arrayOf(arrayOf)
 
 
 
-                 timetables.forEach{
-                    println(it.name+":");
-                     it.activities.forEach{
+
+                     data.forEach{
                          println("   "+it.name+"||||"+it.begining.toString()+"||||"+it.minutesTillStart()+"||||"+it.duration+"||||"+it.color)
 
                          if(it.minutesTillStart() + it.duration >-30 && it.minutesTillStart() <360){
@@ -216,36 +215,13 @@ class WallpaperRodymas : WallpaperService() {
                              kuris=(kuris+1)%3
                              PieskKvadrata(kuris, (it.minutesTillStart() +30).toInt(), it.duration.toInt(),it.name, it.color!!)
                              }
-
-
-
-
                          }
-                     }
+
                     println("baigta")
-                //println(("tvarkarasciu yra"+db.getAllTimetables().size.toString()))
-
-
-                data.forEach{
-                    it.activities.forEach{
-                        println(it)
-                    }
-                }
-
-
-
-
-
-
-
-
-
-
 
 
 
                 //
-
                         Skale(6)
                        surfaceHolder.unlockCanvasAndPost(canvas)
                    }
