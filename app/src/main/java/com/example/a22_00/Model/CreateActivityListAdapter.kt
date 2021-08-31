@@ -63,37 +63,39 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
         var Diena1 = rowView.findViewById<ToggleButton>(R.id.WeekDay1)
         Diena1.setOnCheckedChangeListener { buttonView, isChecked ->
             savaite[0]=isChecked
+
         }
         var Diena2 = rowView.findViewById<ToggleButton>(R.id.WeekDay2)
         Diena2.setOnCheckedChangeListener { buttonView, isChecked ->
             savaite[1]=isChecked
+            saveDOW(savaite,position)
         }
         var Diena3 = rowView.findViewById<ToggleButton>(R.id.WeekDay3)
         Diena3.setOnCheckedChangeListener { buttonView, isChecked ->
             savaite[2]=isChecked
+            saveDOW(savaite,position)
         }
         var Diena4 = rowView.findViewById<ToggleButton>(R.id.WeekDay4)
         Diena4.setOnCheckedChangeListener { buttonView, isChecked ->
             savaite[3]=isChecked
+            saveDOW(savaite,position)
         }
         var Diena5 = rowView.findViewById<ToggleButton>(R.id.WeekDay5)
         Diena5.setOnCheckedChangeListener { buttonView, isChecked ->
             savaite[4]=isChecked
+            saveDOW(savaite,position)
         }
         var Diena6 = rowView.findViewById<ToggleButton>(R.id.WeekDay6)
         Diena6.setOnCheckedChangeListener { buttonView, isChecked ->
             savaite[5]=isChecked
+            saveDOW(savaite,position)
         }
         var Diena7 = rowView.findViewById<ToggleButton>(R.id.WeekDay7)
         Diena7.setOnCheckedChangeListener { buttonView, isChecked ->
             savaite[6]=isChecked
+            saveDOW(savaite,position)
         }
-        var dayOfWeek = 0.toByte()
-        for(it in savaite.reversed()) {
-            dayOfWeek = dayOfWeek.toInt().shl(1).toByte()
-            dayOfWeek = dayOfWeek.toInt().or(if (it) 1 else 0).toByte()
-        }
-        activities[position].dayOfTheWeek = dayOfWeek
+
 
         //Button Change color
         val colorPickerButton  = rowView.findViewById(R.id.colorPicker) as Button
@@ -116,7 +118,16 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
 
         return rowView
     }
-
+    fun saveDOW(savaite:BooleanArray,position: Int){
+        var dayOfWeek = 0.toByte()
+        for(it in savaite.reversed()) {
+            dayOfWeek = dayOfWeek.toInt().shl(1).toByte()
+            dayOfWeek = dayOfWeek.toInt().or(if (it) 1 else 0).toByte()
+            println(dayOfWeek)
+        }
+        activities[position].dayOfTheWeek = dayOfWeek
+        println("issisaugojau: ${activities[position].dayOfTheWeek}")
+    }
     fun addActivity(activity: com.example.a22_00.Model.Activity){
         activities.add(activity)
         add(activity)

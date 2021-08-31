@@ -32,9 +32,10 @@ class Activity {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun minutesTillStart(): Long{
-        val week = Calendar.getInstance(TimeZone.getDefault()).get(Calendar.DAY_OF_WEEK)-1
-        val minutes = LocalTime.now().until(begining, ChronoUnit.MINUTES)
-        dayOfTheWeek.toInt()
+        //val week = Calendar.getInstance(TimeZone.getDefault()).get(Calendar.DAY_OF_WEEK)-1
+        //val minutes = LocalTime.now().until(begining, ChronoUnit.MINUTES)
+        return LocalTime.now().until(begining, ChronoUnit.MINUTES)
+        //dayOfTheWeek.toInt()
 
     }
 }

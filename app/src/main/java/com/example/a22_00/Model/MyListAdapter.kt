@@ -20,7 +20,7 @@ class MyListAdapter(private val context: Activity, private val activities: Array
 
         titleText.text = activities[position].name
 
-        subtitleText.text = "${activities[position].begining} (${activities[position].duration} mins)"
+        subtitleText.text = "${activities[position].begining} (${activities[position].duration} mins) (${activities[position].dayOfTheWeek})"
         activityContainer.setBackgroundColor(activities[position].color!!.toArgb())
 
         val btnDelete = rowView.findViewById<Button>(R.id.Naikinti)
