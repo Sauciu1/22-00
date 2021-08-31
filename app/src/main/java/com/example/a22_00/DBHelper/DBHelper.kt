@@ -113,7 +113,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         val db = this.writableDatabase
         //val activities = mutableMapOf<Int, com.example.a22_00.Model.Activity>()
         val cursor  = db.rawQuery("SELECT * FROM $TABLE_ACTIVITIES ORDER BY $COL_BEGINING DESC",null)
-        if(cursor.count<1) return arrayListOf(Activity())
+        if(cursor.count<1) return ArrayList<com.example.a22_00.Model.Activity>()
         if(cursor.moveToFirst()) {
             do {
                 val activity = com.example.a22_00.Model.Activity()
@@ -130,7 +130,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         cursor.close()
         db.close()
         if(data.count()>0) return data
-        else return arrayListOf(Activity())
+        else return ArrayList<com.example.a22_00.Model.Activity>()
     }
 
 
