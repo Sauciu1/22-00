@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 //        ))
 //        db.insertTimetable(t)
 
-        val data = db.getAllTimetables()
+        val data = db.getAllActivities()
 
         // Čia reikia db data pversi į array ir tada galima sitas kodas veiks
         val listView = findViewById<ListView>(R.id.listView)  //formos elementas kuriame sis sarasas yra sukuriamas
