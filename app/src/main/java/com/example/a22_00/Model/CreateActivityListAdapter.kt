@@ -58,45 +58,42 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
         */
 
 
-        var savaite = byteArrayOf(0,0,0,0,0,0,0)
+        var savaite = booleanArrayOf(false,false,false,false,false,false,false,false)
 
         var Diena1 = rowView.findViewById<ToggleButton>(R.id.WeekDay1)
         Diena1.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked)savaite[0]=1
-            else savaite[0]=0
+            savaite[0]=isChecked
         }
         var Diena2 = rowView.findViewById<ToggleButton>(R.id.WeekDay2)
         Diena2.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked)savaite[1]=1
-            else savaite[1]=0
+            savaite[1]=isChecked
         }
         var Diena3 = rowView.findViewById<ToggleButton>(R.id.WeekDay3)
         Diena3.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked)savaite[2]=1
-            else savaite[2]=0
+            savaite[2]=isChecked
         }
         var Diena4 = rowView.findViewById<ToggleButton>(R.id.WeekDay4)
         Diena4.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked)savaite[3]=1
-            else savaite[3]=0
+            savaite[3]=isChecked
         }
         var Diena5 = rowView.findViewById<ToggleButton>(R.id.WeekDay5)
         Diena5.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked)savaite[4]=1
-            else savaite[4]=0
+            savaite[4]=isChecked
         }
         var Diena6 = rowView.findViewById<ToggleButton>(R.id.WeekDay6)
         Diena6.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked)savaite[5]=1
-            else savaite[5]=0
+            savaite[5]=isChecked
         }
         var Diena7 = rowView.findViewById<ToggleButton>(R.id.WeekDay7)
         Diena7.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked)savaite[6]=1
-            else savaite[6]=0
+            savaite[6]=isChecked
         }
-
-
+        var dayOfWeek = 0.toByte()
+        for(it in savaite.reversed()) {
+            dayOfWeek = dayOfWeek.toInt().shl(1).toByte()
+            dayOfWeek = dayOfWeek.toInt().or(if (it) 1 else 0).toByte()
+        }
+        activities[position].dayOfTheWeek = dayOfWeek
 
         //Button Change color
         val colorPickerButton  = rowView.findViewById(R.id.colorPicker) as Button
