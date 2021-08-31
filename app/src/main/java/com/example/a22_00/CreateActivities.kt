@@ -36,7 +36,7 @@ class CreateActivities : AppCompatActivity() {
         //val veiklos:ArrayList<com.example.a22_00.Model.Activity> =ArrayList<com.example.a22_00.Model.Activity>()
         //(TempData.Data.data["Timetable"] as Timetable).activities = ArrayList<com.example.a22_00.Model.Activity>(
           //  arrayListOf(Activity("Activity 1", LocalTime.now(),60, Color.valueOf(Color.BLUE)),Activity("Activity 2", LocalTime.now(),60, Color.valueOf(Color.BLUE))))
-        (TempData.Data.data["Timetable"] as Timetable).activities = ArrayList<Activity>()
+        TempData.Data.data["Activities"] = ArrayList<com.example.a22_00.Model.Activity>()
 
         //TempData.Data.data.put("ActivityCreation",ArrayList<HashMap<String,View>>())
         //variantas
@@ -44,11 +44,11 @@ class CreateActivities : AppCompatActivity() {
         //var adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<com.example.a22_00.Model.Activity>)
         val listView = findViewById<ListView>(R.id.CreateActivitiesListView)
         //listView.adapter = adapter
-        listView.adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<Activity>)
+        listView.adapter = CreateActivityListAdapter(this,TempData.Data.data["Activities"] as ArrayList<com.example.a22_00.Model.Activity>)
 
 
-        ((TempData.Data.data["Timetable"] as Timetable).activities as ArrayList).add(Activity())
-        listView.adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<Activity>)
+        ((TempData.Data.data["Activities"]  as ArrayList<com.example.a22_00.Model.Activity>).add(Activity()))
+        listView.adapter = CreateActivityListAdapter(this,TempData.Data.data["Activities"] as ArrayList<com.example.a22_00.Model.Activity>)
 
 
 
@@ -65,19 +65,24 @@ class CreateActivities : AppCompatActivity() {
         done.setOnClickListener {
 
             val intent = Intent(this, MainActivity::class.java)
-            if((TempData.Data.data["Timetable"] as Timetable).activities.size<1){
+            if((TempData.Data.data["Activities"] as ArrayList<com.example.a22_00.Model.Activity>).size<1){
                 //error "Please add activities"
                 return@setOnClickListener
             }
-            val t = TempData.Data.data["Timetable"] as Timetable
-            println("${t.name}, ${t.description}, ${t.activities.count()}")
-            db.insertTimetable(t)
+            val t = TempData.Data.data["Activities"] as ArrayList<com.example.a22_00.Model.Activity>
+            //println("${t.name}, ${t.description}, ${t.activities.count()}")
+            t.forEach({
+                if(it.id==Int.MAX_VALUE)db.insertActivity(it)
+            })
+            //TempData.Data.data["Activities"]
+            //db.insertTimetable(t)
             db.close()
             startActivity(intent)
         }
         val cancel = findViewById<Button>(R.id.cancel)
         cancel.setOnClickListener {
             //val intent = this.parentActivityIntent//Intent(this, CreateWorkout::class.java)
+            TempData.Data.data["Activities"]=null
             db.close()
             this.finish()
             //startActivity(intent)

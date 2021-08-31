@@ -139,7 +139,7 @@ class CPickerListener: AmbilWarnaDialog.OnAmbilWarnaListener {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
         button.setBackgroundColor(color)
-        (TempData.Data.data["Timetable"] as Timetable).activities[i].color = Color.valueOf(color)
+        (TempData.Data.data["Activities"] as ArrayList<com.example.a22_00.Model.Activity>)[i].color = Color.valueOf(color)
     }
 
 }

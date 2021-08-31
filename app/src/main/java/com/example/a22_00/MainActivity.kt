@@ -69,11 +69,6 @@ class MainActivity : AppCompatActivity() {
         openCreateW.setOnClickListener {
             db.close()
             val prButton = Intent(this, CreateActivities::class.java)
-            val tb = Timetable()
-            tb.name = "kazkas"
-            tb.description = "aaklhsdlkfjahlsdfjhl"
-            TempData.Data.data.clear()
-            TempData.Data.data.put("Timetable",tb)
             startActivity(prButton)
         }
         openWallpaper.setOnClickListener {
@@ -91,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val db = DBHelper(applicationContext)
-        val data = db.getAllTimetables()
+        val data = db.getAllActivities()
         val listView = findViewById<ListView>(R.id.listView)  //formos elementas kuriame sis sarasas yra sukuriamas
         listView.adapter = MyListAdapter(this,data.toTypedArray())
         db.close()
