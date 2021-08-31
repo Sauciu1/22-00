@@ -203,7 +203,7 @@ class DBHelper(context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null,DAT
         values.put(COL_BEGINING,data.begining.toString())
         values.put(COL_DURATION,data.duration)
         values.put(COL_COLOR, "#" + Integer.toHexString(data.color!!.toArgb()).substring(2))
-        values.put(COL_DAY_OF_THE_WEEK,data.name)
+        values.put(COL_DAY_OF_THE_WEEK,data.dayOfTheWeek)
         db.insert(TABLE_ACTIVITIES,null,values)
         println("sukisau veikla sarasan")
         values.clear()
