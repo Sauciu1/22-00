@@ -82,8 +82,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // informacija kodui, reikes pasalinti:
-        //db.onUpgrade(db.readableDatabase, 11, 12)
 
 
 

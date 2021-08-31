@@ -24,6 +24,9 @@ class ActivityListAdapter(private val context: Activity, private val activities:
             "${activities[position].begining} (${activities[position].duration} mins)"
         activityContainer.setBackgroundColor(activities[position].color!!.toArgb())
 
+
+
+
         return rowView
     }
 }
