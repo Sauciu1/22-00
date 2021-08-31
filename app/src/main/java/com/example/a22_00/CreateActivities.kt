@@ -3,6 +3,7 @@ package com.example.a22_00
 import android.widget.Toast
 import android.widget.CompoundButton
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -14,6 +15,7 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.ToggleButton
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.a22_00.DBHelper.DBHelper
 import com.example.a22_00.Model.Activity
@@ -60,7 +62,10 @@ class CreateActivities : AppCompatActivity() {
 
 
 
-
+        val positiveButtonClick = { dialog: DialogInterface, which: Int ->
+            //Toast.makeText(applicationContext,
+               // android.R.string.no, Toast.LENGTH_SHORT).show()
+        }
             val done = findViewById<Button>(R.id.Done)
         done.setOnClickListener {
 
@@ -70,14 +75,21 @@ class CreateActivities : AppCompatActivity() {
                 return@setOnClickListener
             }
             val t = TempData.Data.data["Activities"] as ArrayList<com.example.a22_00.Model.Activity>
-            //println("${t.name}, ${t.description}, ${t.activities.count()}")
-            t.forEach({
-                if(it.id==Int.MAX_VALUE)db.insertActivity(it)
-            })
-            //TempData.Data.data["Activities"]
-            //db.insertTimetable(t)
-            db.close()
-            startActivity(intent)
+            if(t.find { it.name==null||it.name=="" }==null){
+                t.forEach({
+                    if(it.id==Int.MAX_VALUE)db.insertActivity(it)
+                })
+                db.close()
+                startActivity(intent)
+            }
+            else{
+                db.close()
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Error")
+                builder.setMessage("All activities should be named")
+                builder.setPositiveButton("OK",positiveButtonClick)
+                builder.show()
+            }
         }
         val cancel = findViewById<Button>(R.id.cancel)
         cancel.setOnClickListener {
