@@ -10,7 +10,7 @@ import java.time.temporal.Temporal
 import java.time.temporal.TemporalUnit
 
 class Activity {
-    var  id: Int = 0
+    var  id: Int = Int.MAX_VALUE
     var name: String = ""
     @RequiresApi(Build.VERSION_CODES.O)
     var begining: LocalTime = LocalTime.now()
