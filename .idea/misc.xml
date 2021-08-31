@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/USER/AndroidStudioProjects/2200/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.40989583333333335" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/2200/app/src/main/res/drawable/ic_launcher_background.xml" value="0.40989583333333335" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/2200/app/src/main/res/layout/activity_create_activities.xml" value="0.43125" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/2200/app/src/main/res/layout/activity_create_workout.xml" value="0.43125" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/2200/app/src/main/res/layout/activity_main.xml" value="0.43125" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/2200/app/src/main/res/layout/activity_row.xml" value="0.43125" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/2200/app/src/main/res/layout/create_activity_row.xml" value="0.39375" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/2200/app/src/main/res/layout/row.xml" value="0.43125" />
         <entry key="..\:/projektai/CASProject/TimetableWallpaper/app/src/main/res/layout/activity_create_activities.xml" value="0.23641304347826086" />
         <entry key="..\:/projektai/CASProject/TimetableWallpaper/app/src/main/res/layout/activity_create_workout.xml" value="0.23641304347826086" />
         <entry key="..\:/projektai/CASProject/TimetableWallpaper/app/src/main/res/layout/activity_main.xml" value="0.23641304347826086" />

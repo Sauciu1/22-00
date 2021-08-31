@@ -208,7 +208,7 @@ class WallpaperRodymas : WallpaperService() {
 
 
                      data.forEach{
-//                         println("   "+it.name+"||||"+it.begining.toString()+"||||"+it.minutesTillStart()+"||||"+it.duration+"||||"+it.color)
+                         println("   "+it.name+"||||"+it.begining.toString()+"||||"+it.minutesTillStart()+"||||"+it.duration+"||||"+it.color+"||||"+it.dayOfTheWeek)
 
                          if(it.minutesTillStart() + it.duration >-30 && it.minutesTillStart() <360){
 

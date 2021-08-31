@@ -19,8 +19,26 @@ class MyListAdapter(private val context: Activity, private val activities: Array
         val activityContainer = rowView.findViewById(R.id.cntactivity) as LinearLayout
 
         titleText.text = activities[position].name
+        var dabar= (activities[position].dayOfTheWeek).toInt()
+        var counter=0;
+        var tekstas= ("| Mo | Tu | We | Th | Fr | Sa | Su |").toCharArray()
 
-        subtitleText.text = "${activities[position].begining} (${activities[position].duration} mins) (${activities[position].dayOfTheWeek})"
+        for(each in 1..7){
+            if(dabar%2==0){
+                tekstas[counter+2]='-'
+                tekstas[counter+3]='-'
+           }
+
+           counter+=5
+           dabar/=2
+        }
+        val teksto=String(tekstas)
+
+
+
+
+        subtitleText.text = "${activities[position].begining} (${activities[position].duration} mins) \n ${teksto} \n" + " ${activities[position].minutesTillStart()}"
+
         activityContainer.setBackgroundColor(activities[position].color!!.toArgb())
 
         val btnDelete = rowView.findViewById<Button>(R.id.Naikinti)

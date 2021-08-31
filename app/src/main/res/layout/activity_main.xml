@@ -25,7 +25,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:background="?android:attr/selectableItemBackground"
-        android:text="Create Wallpaper" />
+        android:text="Add activity" />
 
     <ListView
         android:layout_height="match_parent"
