@@ -22,7 +22,11 @@
             android:ems="10"
             android:enabled="true"
             android:hint="Activity name"
-            android:inputType="text" />
+            android:imeOptions="actionDone"
+            android:inputType="textFilter"
+
+            />
+
 
 
         <LinearLayout

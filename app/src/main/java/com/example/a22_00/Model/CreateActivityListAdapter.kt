@@ -28,16 +28,18 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
+
         val inflater = context.layoutInflater
         val rowView = inflater.inflate(R.layout.create_activity_row, null, true)
 
-        //Debugging
-        println("sukuriau vieneta")
 
-        //EditText Name
-        val txtName = rowView.findViewById<EditText>(R.id.editTextActivityName)
+        var txtName = rowView.findViewById<EditText>(R.id.editTextActivityName)
         txtName.setText(activities[position].name)
-        //(TempData.Data.data["Names"] as ArrayList<EditText>)[position] = txtName
+
+        //txtName.setOnClickListener(this);
+
+
+
         txtName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
 
@@ -48,11 +50,14 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
                 activities[position].name = s.toString()
+                println(activities[position].name)
+
+
             }
         })
-        //txtName.onFocusChangeListener = null
-        //txtName.onFocusChangeListener = View.OnFocusChangeListener{v, hasFocus -> if(!hasFocus)activities[position].name = (v as EditText).text.toString()}// .setText(activities[position].name)}
-        //txtName.on
+
+
+       // txtName.append(activities[position].name)
 
         //Button setTime
         val btnTime = rowView.findViewById<Button>(R.id.editTextActivityTime)
@@ -70,17 +75,7 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
         numDuration.maxValue=1440
         numDuration.setValue(activities[position].duration.toInt())
         numDuration.setOnValueChangedListener { picker, oldVal, newVal ->  activities[position].duration = newVal.toLong()}
-        //numDuration.min=0
-        //numDuration.max=1440
-        //numDuration.handler.addListener(Consumer { activities[position].duration= (it as Int).toLong() })// { v, hasFocus -> if(!hasFocus)activities[position].duration = ((v as NumberPickerElement).getValue().toLong()) }
-        /*numDuration.setOnClickListener {
-            val numberPickerDialog = NumberPicker(context,AttributeSet())
-        }*/
-        /*
-        //txtTime.onFocusChangeListener = View.OnFocusChangeListener{v, hasFocus -> if(!hasFocus)(TempData.Data.data["ActivityCreation"] as ArrayList<HashMap<String,View>>)[position]["txtTime"] = v else (v as EditText).setText(((TempData.Data.data["ActivityCreation"] as ArrayList<HashMap<String,View>>)[position]["txtTime"] as EditText).text)}// .setText(activities[position].name)}
-        val txtDuration = rowView.findViewById<EditText>(R.id.editTextActivityDuration)
-        //TempData.Data.data.put("durationEdit",txtDuration)
-        */
+
 
 
         var savaite = booleanArrayOf(false,false,false,false,false,false,false,false)
@@ -133,15 +128,15 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
         //Button deleteThisActivity
         val deleteActivityButton  = rowView.findViewById(R.id.deleteThisActivity) as Button
         deleteActivityButton.setOnClickListener{
-            txtName.onFocusChangeListener.onFocusChange(txtName,txtName.hasFocus())
-            txtName.onFocusChangeListener = null
+
             activities.removeAt(position);
             (it.parent.parent.parent.parent.parent as ListView).adapter = CreateActivityListAdapter(context,activities = activities)
             //((it.parent.parent.parent.parent.parent as ListView).adapter as ArrayAdapter<com.example.a22_00.Model.Activity>).remove(activities[position])
             //activities.removeAt(position);
         }
-
+        println("Labas " + activities[position].name)
         return rowView
+
     }
     fun saveDOW(savaite:BooleanArray,position: Int){
         var dayOfWeek = 0.toByte()
