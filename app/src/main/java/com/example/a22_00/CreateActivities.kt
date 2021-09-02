@@ -39,6 +39,7 @@ class CreateActivities : AppCompatActivity() {
         //(TempData.Data.data["Timetable"] as Timetable).activities = ArrayList<com.example.a22_00.Model.Activity>(
           //  arrayListOf(Activity("Activity 1", LocalTime.now(),60, Color.valueOf(Color.BLUE)),Activity("Activity 2", LocalTime.now(),60, Color.valueOf(Color.BLUE))))
         TempData.Data.data["Activities"] = ArrayList<com.example.a22_00.Model.Activity>()
+        TempData.Data.data["Names"] = ArrayList<EditText>()
 
         //TempData.Data.data.put("ActivityCreation",ArrayList<HashMap<String,View>>())
         //variantas
@@ -46,10 +47,11 @@ class CreateActivities : AppCompatActivity() {
         //var adapter = CreateActivityListAdapter(this,(TempData.Data.data["Timetable"] as Timetable).activities as ArrayList<com.example.a22_00.Model.Activity>)
         val listView = findViewById<ListView>(R.id.CreateActivitiesListView)
         //listView.adapter = adapter
-        listView.adapter = CreateActivityListAdapter(this,TempData.Data.data["Activities"] as ArrayList<com.example.a22_00.Model.Activity>)
+       // listView.adapter = CreateActivityListAdapter(this,TempData.Data.data["Activities"] as ArrayList<com.example.a22_00.Model.Activity>)
 
 
         ((TempData.Data.data["Activities"]  as ArrayList<com.example.a22_00.Model.Activity>).add(Activity()))
+        ((TempData.Data.data["Names"]  as ArrayList<EditText>).add(EditText(this.applicationContext)))
         listView.adapter = CreateActivityListAdapter(this,TempData.Data.data["Activities"] as ArrayList<com.example.a22_00.Model.Activity>)
 
 
@@ -74,6 +76,13 @@ class CreateActivities : AppCompatActivity() {
                 //error "Please add activities"
                 return@setOnClickListener
             }
+            /*var x:Int=0
+            while (x<(TempData.Data.data["Names"] as ArrayList<EditText>).size){
+                (TempData.Data.data["Activities"] as ArrayList<com.example.a22_00.Model.Activity>)[x].name= (TempData.Data.data["Names"] as ArrayList<EditText>)[x].text.toString()
+                x++
+            }*/
+
+
             val t = TempData.Data.data["Activities"] as ArrayList<com.example.a22_00.Model.Activity>
             if(t.find { it.name==null||it.name=="" }==null){
                 t.forEach({

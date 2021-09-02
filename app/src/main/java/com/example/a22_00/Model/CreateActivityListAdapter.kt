@@ -1,14 +1,20 @@
 package com.example.a22_00.Model
 
+//import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+//import kotlinx.android.synthetic.main.activity_main.*
 import android.app.Activity
 import android.app.TimePickerDialog
 import android.graphics.Color
 import android.os.Build
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.core.widget.doOnTextChanged
 import com.example.a22_00.R
 import yuku.ambilwarna.AmbilWarnaDialog
 import java.text.SimpleDateFormat
@@ -31,7 +37,22 @@ class CreateActivityListAdapter(private val context: Activity, private val activ
         //EditText Name
         val txtName = rowView.findViewById<EditText>(R.id.editTextActivityName)
         txtName.setText(activities[position].name)
-        txtName.onFocusChangeListener = View.OnFocusChangeListener{v, hasFocus -> if(!hasFocus)activities[position].name = (v as EditText).text.toString()}// .setText(activities[position].name)}
+        //(TempData.Data.data["Names"] as ArrayList<EditText>)[position] = txtName
+        txtName.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int,
+                                           count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+                activities[position].name = s.toString()
+            }
+        })
+        //txtName.onFocusChangeListener = null
+        //txtName.onFocusChangeListener = View.OnFocusChangeListener{v, hasFocus -> if(!hasFocus)activities[position].name = (v as EditText).text.toString()}// .setText(activities[position].name)}
+        //txtName.on
 
         //Button setTime
         val btnTime = rowView.findViewById<Button>(R.id.editTextActivityTime)
