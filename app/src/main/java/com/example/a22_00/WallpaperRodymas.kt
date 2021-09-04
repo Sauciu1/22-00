@@ -174,8 +174,8 @@ class WallpaperRodymas : WallpaperService() {
                     for (i in 1..kartok){
                         PieskSkale(-10, Plotis / 16, 60*i + 31, 3, "#000000")
                         PieskSkale(-10, Plotis / 17, 60*i + 30, 1, "#ffffff")
-                        PieskSkale(Plotis / 16 * 15, Plotis + 10, 60*i + 31, 3, "#000000")
-                        PieskSkale(Plotis / 17 * 16, Plotis + 10, 60*i + 30, 1, "#ffffff")
+                        PieskSkale(Plotis / 17 * 16, Plotis + 10, 60*i + 31, 3, "#000000")
+                        PieskSkale(Plotis / 16 * 15, Plotis + 10, 60*i + 30, 1, "#ffffff")
                     }
                 }
                 //// Nuo čia piešiame kvadratus ir visą kitą

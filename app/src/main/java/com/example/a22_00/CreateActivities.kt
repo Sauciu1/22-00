@@ -175,11 +175,21 @@ class CreateActivities : AppCompatActivity() {
 
             val t = TempData.Data.data["Activities"] as ArrayList<com.example.a22_00.Model.Activity>
             if(t.find { it.name==null||it.name=="" }==null){
-                t.forEach({
-                    if(it.id==Int.MAX_VALUE)db.insertActivity(it)
-                })
-                db.close()
-                startActivity(intent)
+                if(t.find { it.dayOfTheWeek==0.toByte() }==null) {
+                    t.forEach({
+                        if (it.id == Int.MAX_VALUE) db.insertActivity(it)
+                    })
+                    db.close()
+                    startActivity(intent)
+                }
+                else{
+                    db.close()
+                    val bld = AlertDialog.Builder(this)
+                    bld.setTitle("Error")
+                    bld.setMessage("All activities should occur at least once a week")
+                    bld.setPositiveButton("OK",positiveButtonClick)
+                    bld.show()
+                }
             }
             else{
                 db.close()
