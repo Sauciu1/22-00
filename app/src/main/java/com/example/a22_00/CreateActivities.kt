@@ -71,7 +71,7 @@ class CreateActivities : AppCompatActivity() {
         btnTime.setText((LocalTime.now().format(formatter)).toString())
 
         btnTime.setOnClickListener {
-            val timePickerDialog = TimePickerDialog(this.applicationContext, TimePickerDialog.OnTimeSetListener({ view, hourOfDay, minute ->activities[position].begining = LocalTime.of(hourOfDay, minute); btnTime.setText(activities[position].begining.toString())}),activities[position].begining.hour,activities[position].begining.second,true)
+            val timePickerDialog = TimePickerDialog(this, TimePickerDialog.OnTimeSetListener({ view, hourOfDay, minute ->activities[position].begining = LocalTime.of(hourOfDay, minute); btnTime.setText(activities[position].begining.toString())}),activities[position].begining.hour,activities[position].begining.second,true)
             timePickerDialog.show()
         }
 
@@ -126,7 +126,7 @@ class CreateActivities : AppCompatActivity() {
         //Button Change color
         val colorPickerButton  = rowView.findViewById(R.id.colorPicker) as Button
         colorPickerButton.setOnClickListener{
-            val cpd = AmbilWarnaDialog(this.applicationContext, activities[position].color!!.toArgb(), CPickerListener(colorPickerButton,position))
+            val cpd = AmbilWarnaDialog(this, activities[position].color!!.toArgb(), CPickerListener(colorPickerButton,position))
             cpd.show()
         }
         colorPickerButton.setBackgroundColor(activities[position].color!!.toArgb())
@@ -219,4 +219,22 @@ class CreateActivities : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow((TempData.Data.data["durationEdit"] as EditText).getWindowToken(), 0)
         super.onPause()
     }*/
+}
+class CPickerListener: AmbilWarnaDialog.OnAmbilWarnaListener {
+    constructor(btn:Button,pos:Int){
+        button = btn
+        i=pos
+    }
+    val button:Button
+    val i:Int
+    override fun onCancel(dialog: AmbilWarnaDialog?) {
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
+        button.setBackgroundColor(color)
+        (TempData.Data.data["Activities"] as ArrayList<com.example.a22_00.Model.Activity>)[i].color = Color.valueOf(color)
+    }
+
 }
