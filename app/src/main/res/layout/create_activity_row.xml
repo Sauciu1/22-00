@@ -127,7 +127,8 @@
                     android:backgroundTint="@android:color/holo_red_light"
                     android:enabled="true"
                     app:icon="@android:drawable/ic_menu_delete"
-                    app:iconTintMode="multiply" />
+                    app:iconTintMode="multiply"
+                    tools:text="DELETE" />
 
             </LinearLayout>
 
